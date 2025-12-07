@@ -5,6 +5,12 @@
     <url>/2025/12/07/hello-world/</url>
     <content><![CDATA[<p>Welcome to my blog!</p>
 <hr>
+<hr>
+<p>title: Hello World # 标题<br>date: 2019&#x2F;3&#x2F;26 hh:mm:ss # 时间<br>categories: # 分类<br>	- 分类  # 只能有一个<br>tags: # 标签<br>	- PS3  # 能有多个<br>- Games  # 一个标签一行</p>
+<hr>
+<p>摘要</p>
+<span id="more"></span>
+<p>正文</p>
 ]]></content>
   </entry>
 </search>
