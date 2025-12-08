@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title></title>
-    <url>/2025/12/07/Linux%E6%93%8D%E4%BD%9C%E7%B3%BB/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
     <title>Linux系统基础</title>
     <url>/2025/12/07/Linux%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</url>
-    <content><![CDATA[<h3 id="一、目录介绍"><a href="#一、目录介绍" class="headerlink" title="一、目录介绍"></a>一、目录介绍</h3><p><img src="/Linux/1.jpg"></p>
+    <content><![CDATA[<h3 id="一、目录介绍"><a href="#一、目录介绍" class="headerlink" title="一、目录介绍"></a>一、目录介绍</h3><p><img src="/2025/12/07/Linux%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/1.jpg" alt="1.jpg"></p>
 <ul>
 <li><p>&#x2F;bin<br>是binary的缩写，这个目录存放着最经常使用的命令，通过上方桌面可以看到bin文件夹有个箭头，是链接到 &#x2F;usr&#x2F;bin下，相当于快捷方式，进入&#x2F;bin和&#x2F;usr&#x2F;bin下是一模一样的</p>
 </li>
