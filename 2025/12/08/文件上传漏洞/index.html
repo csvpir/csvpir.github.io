@@ -20,24 +20,31 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.26.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
 
-    <meta name="description" content="博主是一名对网络安全感兴趣的大学生，本博客仅记录分享一些个人学习成长经历。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Blog">
-<meta property="og:url" content="http://example.com/index.html">
+    <meta name="description" content="漏洞介绍文件上传漏洞是指用户上传了一个可执行的脚本文件，并通过此脚本文件获得了执行服务器端命令的能力。“文件上传” 本身没有问题，有问题的是文件上传后，服务器怎么处理、解释文件。如果服务器的处理逻辑做的不够安全，则会导致严重的后果。 漏洞满足条件：  说明一：能成功上传文件并符合对方服务器运行的语言环境，比如人家后端php处理的你不能上传一个java的后门代码。 说明二：你上传文件的目录可以被脚本">
+<meta property="og:type" content="article">
+<meta property="og:title" content="文件上传漏洞">
+<meta property="og:url" content="http://example.com/2025/12/08/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/index.html">
 <meta property="og:site_name" content="Blog">
-<meta property="og:description" content="博主是一名对网络安全感兴趣的大学生，本博客仅记录分享一些个人学习成长经历。">
+<meta property="og:description" content="漏洞介绍文件上传漏洞是指用户上传了一个可执行的脚本文件，并通过此脚本文件获得了执行服务器端命令的能力。“文件上传” 本身没有问题，有问题的是文件上传后，服务器怎么处理、解释文件。如果服务器的处理逻辑做的不够安全，则会导致严重的后果。 漏洞满足条件：  说明一：能成功上传文件并符合对方服务器运行的语言环境，比如人家后端php处理的你不能上传一个java的后门代码。 说明二：你上传文件的目录可以被脚本">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2025/12/08/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/2.jpeg">
+<meta property="og:image" content="http://example.com/2025/12/08/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/%E6%88%AA%E5%B1%8F2025-12-09%2000.09.07.png">
+<meta property="article:published_time" content="2025-12-08T14:33:57.000Z">
+<meta property="article:modified_time" content="2025-12-08T16:17:11.325Z">
 <meta property="article:author" content="Csvpir">
+<meta property="article:tag" content="Ctf">
+<meta property="article:tag" content="Web">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2025/12/08/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/2.jpeg">
 
 
-<link rel="canonical" href="http://example.com/">
+<link rel="canonical" href="http://example.com/2025/12/08/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/">
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":true,"isPost":false,"lang":"zh-CN","comments":"","permalink":"","path":"index.html","title":""}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2025/12/08/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/","path":"2025/12/08/文件上传漏洞/","title":"文件上传漏洞"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>Blog</title>
+<title>文件上传漏洞 | Blog</title>
   
 
 
@@ -90,7 +97,7 @@
 
     <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
-      <h1 class="site-title">Blog</h1>
+      <p class="site-title">Blog</p>
       <i class="logo-line"></i>
     </a>
   </div>
@@ -143,7 +150,7 @@
   
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -156,6 +163,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.</span> <span class="nav-text">漏洞介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Ctf%E4%B8%AD%E7%9A%84%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0"><span class="nav-number">2.</span> <span class="nav-text">Ctf中的文件上传</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%89%8D%E7%AB%AFjs%E8%BF%87%E6%BB%A4"><span class="nav-number">2.1.</span> <span class="nav-text">前端js过滤</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%AD%E9%97%B4%E4%BB%B6%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E8%A7%A3%E6%9E%90%E7%BB%95%E8%BF%87"><span class="nav-number">2.2.</span> <span class="nav-text">中间件配置文件解析绕过</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%90%8E%E7%AB%AF%E6%A0%A1%E9%AA%8C%E7%BB%95%E8%BF%87"><span class="nav-number">2.3.</span> <span class="nav-text">后端校验绕过</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#content-type%EF%BC%88%E6%9C%8D%E5%8A%A1%E7%AB%AF%E6%A3%80%E6%B5%8B%E2%80%93MIME-%E7%B1%BB%E5%9E%8B%EF%BC%89"><span class="nav-number">2.4.</span> <span class="nav-text">content-type（服务端检测–MIME 类型）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%BB%95%E8%BF%87%E6%96%87%E4%BB%B6%E5%A4%B4%E6%A3%80%E6%B5%8B"><span class="nav-number">2.5.</span> <span class="nav-text">绕过文件头检测</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%90%8E%E7%BC%80%E5%90%8D%E7%BB%95%E8%BF%87"><span class="nav-number">2.6.</span> <span class="nav-text">后缀名绕过</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -197,16 +205,17 @@
 
     </div>
 
-    <div class="main-inner index posts-expand">
+    <div class="main-inner post posts-expand">
 
-    
+
+  
 
 
 <div class="post-block">
   
   
 
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2025/12/08/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -220,13 +229,13 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | Blog">
+      <meta itemprop="name" content="文件上传漏洞 | Blog">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2025/12/08/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/" class="post-title-link" itemprop="url">文件上传漏洞</a>
-        </h2>
+        <h1 class="post-title" itemprop="name headline">
+          文件上传漏洞
+        </h1>
 
         <div class="post-meta-container">
           <div class="post-meta">
@@ -278,8 +287,7 @@
     
     
     
-    <div class="post-body" itemprop="articleBody">
-          <h3 id="漏洞介绍"><a href="#漏洞介绍" class="headerlink" title="漏洞介绍"></a>漏洞介绍</h3><p>文件上传漏洞是指用户上传了一个<strong>可执行的脚本文件</strong>，并通过此脚本文件获得了执行服务器端命令的能力。“文件上传” 本身没有问题，有问题的是文件上传后，服务器怎么处理、解释文件。如果服务器的处理逻辑做的不够安全，则会导致严重的后果。</p>
+    <div class="post-body" itemprop="articleBody"><h3 id="漏洞介绍"><a href="#漏洞介绍" class="headerlink" title="漏洞介绍"></a>漏洞介绍</h3><p>文件上传漏洞是指用户上传了一个<strong>可执行的脚本文件</strong>，并通过此脚本文件获得了执行服务器端命令的能力。“文件上传” 本身没有问题，有问题的是文件上传后，服务器怎么处理、解释文件。如果服务器的处理逻辑做的不够安全，则会导致严重的后果。</p>
 <p>漏洞满足条件：</p>
 <ul>
 <li>说明一：能成功上传文件并符合对方服务器运行的<strong>语言环境</strong>，比如人家后端php处理的你不能上传一个java的后门代码。</li>
@@ -343,7 +351,6 @@
 <p><img src="/2025/12/08/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/%E6%88%AA%E5%B1%8F2025-12-09%2000.09.07.png" alt=" "></p>
 <p>2.也可以创建一个txt文档写入木马改为png后缀，然后010打开加上真正的png文件头，最后bp抓包改png为php实现文件头检测绕过。</p>
 <h5 id="后缀名绕过"><a href="#后缀名绕过" class="headerlink" title="后缀名绕过"></a>后缀名绕过</h5>
-      
     </div>
 
     
@@ -351,295 +358,26 @@
     
 
     <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
+          <div class="post-tags">
+              <a href="/tags/Ctf/" rel="tag"># Ctf</a>
+              <a href="/tags/Web/" rel="tag"># Web</a>
+          </div>
 
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2025/12/08/Flask%E6%A1%86%E6%9E%B6%E5%AE%89%E5%85%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/touxiang.jpg">
-      <meta itemprop="name" content="Csvpir">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Blog">
-      <meta itemprop="description" content="博主是一名对网络安全感兴趣的大学生，本博客仅记录分享一些个人学习成长经历。">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2025/12/08/Flask%E6%A1%86%E6%9E%B6%E5%AE%89%E5%85%A8/" class="post-title-link" itemprop="url">未命名</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2025-12-08 22:20:22 / 修改时间：22:21:08" itemprop="dateCreated datePublished" datetime="2025-12-08T22:20:22+08:00">2025-12-08</time>
-    </span>
-
-  
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>0</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2025/12/07/Linux%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/touxiang.jpg">
-      <meta itemprop="name" content="Csvpir">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Blog">
-      <meta itemprop="description" content="博主是一名对网络安全感兴趣的大学生，本博客仅记录分享一些个人学习成长经历。">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2025/12/07/Linux%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" class="post-title-link" itemprop="url">Linux系统基础</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2025-12-07 23:13:52" itemprop="dateCreated datePublished" datetime="2025-12-07T23:13:52+08:00">2025-12-07</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2025-12-08 15:06:10" itemprop="dateModified" datetime="2025-12-08T15:06:10+08:00">2025-12-08</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" itemprop="url" rel="index"><span itemprop="name">操作系统</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>177</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3 id="目录介绍"><a href="#目录介绍" class="headerlink" title="目录介绍"></a>目录介绍</h3><p><img src="/2025/12/07/Linux%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/1.jpg" alt="1.jpg"></p>
-<ul>
-<li><p>&#x2F;bin<br>是binary的缩写，这个目录存放着最经常使用的命令，通过上方桌面可以看到bin文件夹有个箭头，是链接到 &#x2F;usr&#x2F;bin下，相当于快捷方式，进入&#x2F;bin和&#x2F;usr&#x2F;bin下是一模一样的</p>
-</li>
-<li><p>&#x2F;sbin<br>s就是super User的意思，这里存放的是系统管理员使用的系统管理程序。</p>
-</li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2025/12/07/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/touxiang.jpg">
-      <meta itemprop="name" content="Csvpir">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Blog">
-      <meta itemprop="description" content="博主是一名对网络安全感兴趣的大学生，本博客仅记录分享一些个人学习成长经历。">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2025/12/07/hello-world/" class="post-title-link" itemprop="url">Csvpir</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2025-12-07 18:26:04 / 修改时间：22:55:59" itemprop="dateCreated datePublished" datetime="2025-12-07T18:26:04+08:00">2025-12-07</time>
-    </span>
-
-  
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>127</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>Welcome to my blog!</p>
-<hr>
-<hr>
-<p>title: Hello World # 标题<br>date: 2019&#x2F;3&#x2F;26 hh:mm:ss # 时间<br>categories: # 分类<br>	- 分类  # 只能有一个<br>tags: # 标签<br>	- PS3  # 能有多个<br>- Games  # 一个标签一行</p>
-<hr>
-<p>摘要</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2025/12/07/hello-world/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
         
-      
-    </div>
 
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2025/12/08/Flask%E6%A1%86%E6%9E%B6%E5%AE%89%E5%85%A8/" rel="prev" title="">
+                  <i class="fa fa-angle-left"></i> 
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
     </footer>
   </article>
 </div>
+
 
 
 

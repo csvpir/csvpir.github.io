@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title></title>
+    <url>/2025/12/08/Flask%E6%A1%86%E6%9E%B6%E5%AE%89%E5%85%A8/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
     <title>Linux系统基础</title>
     <url>/2025/12/07/Linux%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</url>
-    <content><![CDATA[<h3 id="一、目录介绍"><a href="#一、目录介绍" class="headerlink" title="一、目录介绍"></a>一、目录介绍</h3><p><img src="/2025/12/07/Linux%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/1.jpg" alt="1.jpg"></p>
+    <content><![CDATA[<h3 id="目录介绍"><a href="#目录介绍" class="headerlink" title="目录介绍"></a>目录介绍</h3><p><img src="/2025/12/07/Linux%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/1.jpg" alt="1.jpg"></p>
 <ul>
 <li><p>&#x2F;bin<br>是binary的缩写，这个目录存放着最经常使用的命令，通过上方桌面可以看到bin文件夹有个箭头，是链接到 &#x2F;usr&#x2F;bin下，相当于快捷方式，进入&#x2F;bin和&#x2F;usr&#x2F;bin下是一模一样的</p>
 </li>
@@ -30,5 +35,80 @@
 <span id="more"></span>
 <p>正文</p>
 ]]></content>
+  </entry>
+  <entry>
+    <title>文件上传漏洞</title>
+    <url>/2025/12/08/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/</url>
+    <content><![CDATA[<h3 id="漏洞介绍"><a href="#漏洞介绍" class="headerlink" title="漏洞介绍"></a>漏洞介绍</h3><p>文件上传漏洞是指用户上传了一个<strong>可执行的脚本文件</strong>，并通过此脚本文件获得了执行服务器端命令的能力。“文件上传” 本身没有问题，有问题的是文件上传后，服务器怎么处理、解释文件。如果服务器的处理逻辑做的不够安全，则会导致严重的后果。</p>
+<p>漏洞满足条件：</p>
+<ul>
+<li>说明一：能成功上传文件并符合对方服务器运行的<strong>语言环境</strong>，比如人家后端php处理的你不能上传一个java的后门代码。</li>
+<li>说明二：你上传文件的目录可以被脚本语言<strong>解析执行</strong>，如果你上传的目录没有<strong>执行权限</strong>也不行。</li>
+<li>说明三：一般文件上传后会返回你一个地址，如果不知道<strong>上传到的路径</strong>也很难构成文件上传漏洞。</li>
+</ul>
+<p>简单来说就是上传代码能解析，知道上传到的目录地址，目录下有执行权限。</p>
+<hr>
+<h3 id="Ctf中的文件上传"><a href="#Ctf中的文件上传" class="headerlink" title="Ctf中的文件上传"></a>Ctf中的文件上传</h3><h5 id="前端js过滤"><a href="#前端js过滤" class="headerlink" title="前端js过滤"></a>前端js过滤</h5><p>只进行前端校验，这个太简单就不详细演示了。</p>
+<p>常见绕过方法就两种：</p>
+<ul>
+<li>1.直接禁用浏览器js绕过</li>
+<li>2.看前端源码校验条件，bp改包绕过。</li>
+</ul>
+<hr>
+<h5 id="中间件配置文件解析绕过"><a href="#中间件配置文件解析绕过" class="headerlink" title="中间件配置文件解析绕过"></a>中间件配置文件解析绕过</h5><p>常见题目主要针对apache和nginx中间件+php的组合。</p>
+<p>.htaccess和.user.ini分别为apache和nginx服务器的配置文件，如果我们更改配置文件信息将我们要上传的恶意文件解析为正常文件，并将这个配置文件上传覆盖原来的再上传恶意文件，就绕过了中间件。</p>
+<ul>
+<li>.htaccess文件</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">AddType application/x-httpd-php .jpg</span><br><span class="line">---</span><br><span class="line">//建议直接用第二个有针对性</span><br><span class="line">&lt;FilesMatch &quot;muma.jpg&quot;&gt;</span><br><span class="line">SetHandler application/x-httpd-php</span><br><span class="line">&lt;/FilesMatch&gt;</span><br></pre></td></tr></table></figure>
+
+<p>此文件的内容大概意思为，.htaccess文件可以将.jpg文件当作php文件解析执行。</p>
+<ul>
+<li>.user.ini文件</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">GIF89a</span><br><span class="line">auto_prepend_file=muma.php //muma.php为木马文件名字</span><br></pre></td></tr></table></figure>
+
+<p>针对配置文件两种方式：</p>
+<p>​	1.<code>auto_prepend_file</code>函数在PHP文件执行前自动包含指定文件。比如我们把muma.php上传到的目录里有一个名为index.php的文件，访问该文件我们的恶意文件也会被执行。</p>
+<p>​	2.利用文件头伪造在<code>.user.ini</code>文件中添加伪造的文件头（如GIF文件头）以绕过文件头验证，得以绕过中间件。</p>
+<hr>
+<h5 id="后端校验绕过"><a href="#后端校验绕过" class="headerlink" title="后端校验绕过"></a>后端校验绕过</h5><p>这个校验点有很多，要根据题目提示和经验找校验点。</p>
+<p>常见几种有：</p>
+<h5 id="content-type（服务端检测–MIME-类型）"><a href="#content-type（服务端检测–MIME-类型）" class="headerlink" title="content-type（服务端检测–MIME 类型）"></a>content-type（服务端检测–MIME 类型）</h5><p><code>Content-Type</code> 是 HTTP 协议中的一个请求&#x2F;响应头字段，用于<strong>指示资源的 MIME 类型</strong>。它的核心作用是告诉接收方（浏览器、服务器等）：「我给你发送的数据是什么格式，请用对应的方式处理」。</p>
+<p>常用如下：</p>
+<table>
+<thead>
+<tr>
+<th align="left">type&#x2F;subtype</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">image&#x2F;jpeg</td>
+<td>jpg图片格式</td>
+</tr>
+<tr>
+<td align="left">image&#x2F;png</td>
+<td>png图片格式</td>
+</tr>
+<tr>
+<td align="left">image&#x2F;gif</td>
+<td>gif格式</td>
+</tr>
+</tbody></table>
+<p>如：</p>
+<p><img src="/2025/12/08/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/2.jpeg" alt=" "></p>
+<p>bp抓包改MIME类型为image&#x2F;png即可绕过</p>
+<h5 id="绕过文件头检测"><a href="#绕过文件头检测" class="headerlink" title="绕过文件头检测"></a>绕过文件头检测</h5><p>1.添加GIF89a进行绕过</p>
+<p><img src="/2025/12/08/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/%E6%88%AA%E5%B1%8F2025-12-09%2000.09.07.png" alt=" "></p>
+<p>2.也可以创建一个txt文档写入木马改为png后缀，然后010打开加上真正的png文件头，最后bp抓包改png为php实现文件头检测绕过。</p>
+<h5 id="后缀名绕过"><a href="#后缀名绕过" class="headerlink" title="后缀名绕过"></a>后缀名绕过</h5>]]></content>
+      <categories>
+        <category>Web安全</category>
+      </categories>
+      <tags>
+        <tag>Ctf</tag>
+        <tag>Web</tag>
+      </tags>
   </entry>
 </search>
