@@ -14,70 +14,6 @@
 ]]></content>
   </entry>
   <entry>
-    <title>【THM】Walking An Application(遍历Web应用程序)</title>
-    <url>/2025/12/13/%E3%80%90THM%E3%80%91Walking%20An%20Application(%E9%81%8D%E5%8E%86Web%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F)/</url>
-    <content><![CDATA[<h1 id="Walking-An-Application-遍历Web应用程序"><a href="#Walking-An-Application-遍历Web应用程序" class="headerlink" title="Walking An Application(遍历Web应用程序)"></a>Walking An Application(遍历Web应用程序)</h1><p>TryHackMe靶场地址：<a href="https://tryhackme.com/room/walkinganapplication">https://tryhackme.com/room/walkinganapplication</a></p>
-<p>学习目标：学习如何仅使用浏览器内置工具<strong>手动</strong>审查网页应用的安全问题。自动化安全工具和脚本往往会遗漏许多潜在漏洞和有用信息。</p>
-<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>本房间中使用的内置浏览器工具的简要介绍：</p>
-<ul>
-<li><strong>查看源代码</strong>(<strong>View Source</strong>)——使用浏览器查看网站的人类可读源代码。</li>
-<li><strong>检查员</strong>(<strong>Inspector</strong>)——学习如何检查页面元素并进行修改以查看通常被屏蔽的内容。</li>
-<li><strong>调试器</strong>(<strong>Debugger</strong>) ——检查并控制页面 JavaScript 的流程</li>
-<li><strong>网络</strong>(<strong>Network</strong>)——查看页面发出的所有网络请求。</li>
-</ul>
-<h2 id="探索网站"><a href="#探索网站" class="headerlink" title="探索网站"></a>探索网站</h2><p>作为渗透测试员，您在审查网站或网页应用时的角色是发现可能存在漏洞的功能，并尝试利用这些漏洞来评估这些功能是否存在。这些功能通常是网站中需要与用户互动的部分。</p>
-<p>查找网站的交互部分就像发现登录表单然后手动查看网站的 JavaScript 一样简单。 一个很好的起点是使用你的浏览器访问目标网站，了解该网站的各个页面&#x2F;区域&#x2F;功能，并为每个页面&#x2F;区域&#x2F;功能做简单的信息记录</p>
-<p>Acme IT Support 示例站点的审查如下所示：</p>
-<p><img src="/2025/12/13/%E3%80%90THM%E3%80%91Walking%20An%20Application(%E9%81%8D%E5%8E%86Web%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F)/%E6%88%AA%E5%B1%8F2025-12-13%2021.33.06.png" alt=" "></p>
-<h2 id="查看网页源代码"><a href="#查看网页源代码" class="headerlink" title="查看网页源代码"></a>查看网页源代码</h2><p>页面源代码是每次我们请求时，从网页服务器返回给浏览器&#x2F;客户端的可读代码。返回的代码由 HTML（超文本标记语言）、CSS（层叠样式表）和 JavaScript 组成，它告诉浏览器要显示哪些内容、如何显示，并增加了与 JavaScript 的交互性元素。就我们而言，查看页面源代码有助于我们发现更多关于该网页应用的信息。</p>
-<p><strong>查看源代码三种方式</strong></p>
-<ul>
-<li>浏览网站时右击页面，菜单会显示“查看源代码”选项</li>
-<li>大多数浏览器支持在 URL 前面放置 view-source：例如 :<code>view-source:https://www.google.com/</code>会直接显示网页源代码</li>
-<li>在浏览器菜单中，你会看到查看页面源代码的选项。这个选项有时会出现在子菜单中，比如开发者工具或更多工具。</li>
-</ul>
-<p><strong>分析常见网页源代码</strong></p>
-<p>页面顶部你会注意到一些代码以 <code>&lt;--</code> 到 <code>--&gt;</code> 结尾 ， 这些是html语言注释。这是开发者自己的代码解释或是留言。</p>
-<p>HTML 中指向不同页面的链接会写在锚标签中（这些是以 <code>&lt;a</code> 开头的 HTML 元素 ），而你被引导到的链接会存储在 <code>href</code> 属性中。</p>
-<p>例如，你会在第31行看到联系页面链接：<img src="/2025/12/13/%E3%80%90THM%E3%80%91Walking%20An%20Application(%E9%81%8D%E5%8E%86Web%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F)/ccc306acf34d0c83ffd18f33da1a5994.png" alt="img"></p>
-<p>如果你查看页面源码的更下方，有一个隐藏链接指向一个以“secr”开头的页面，点击这个链接可以获得另一个标记。在现实中你显然不会被标记，但你可能会发现公司用来存储公司&#x2F;员工&#x2F;客户信息的私人区域。</p>
-<p>外部文件如 CSS、JavaScript 和图片可以通过 HTML 代码包含。在这个例子中，你会注意到这些文件都存储在同一个目录中。如果你在网页浏览器中查看该目录，会有配置错误。应该显示的是空白页面或 403 禁止页面，错误提示您无法访问该目录。取而代之的是启用目录列表功能，实际上它列出了目录中的每个文件。有时这不是问题，目录中的所有文件都可以安全公开查看，<strong>但在某些情况下备份文件、源代码或其他机密信息可能被存储在这里</strong>。</p>
-<img src="/2025/12/13/%E3%80%90THM%E3%80%91Walking%20An%20Application(%E9%81%8D%E5%8E%86Web%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F)/%E6%88%AA%E5%B1%8F2025-12-13%2021.00.31.png" alt=" " style="zoom:50%;">
-
-<p>现在很多网站都不是从零开始做的，而是用所谓的框架。框架是一组预制代码，方便开发者包含网站所需的常见功能，如博客、用户管理、表单处理等，节省开发时间。查看页面源代码通常能让我们判断某个框架是否在使用，如果使用了，是哪个框架，甚至是哪个版本。了解框架和版本是个很有价值的发现，因为框架可能存在公开漏洞，网站可能不是最新版本。</p>
-<p>练习答案：</p>
-<p><img src="/2025/12/13/%E3%80%90THM%E3%80%91Walking%20An%20Application(%E9%81%8D%E5%8E%86Web%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F)/image-20251213220228260.png" alt="image-20251213220228260"></p>
-<h2 id="开发者工具"><a href="#开发者工具" class="headerlink" title="开发者工具"></a>开发者工具</h2><p>每个现代浏览器都包含开发者工具，这是一个帮助网页开发者调试网页应用的工具包，能让你一窥网站内部，了解实际情况。作为一名渗透测试员，我们可以利用这些工具更好地理解网页应用。我们特别关注开发者工具包的三个功能：检查器、调试器和网络。</p>
-<h3 id="Inspector（检查器）"><a href="#Inspector（检查器）" class="headerlink" title="Inspector（检查器）"></a><strong>Inspector（检查器）</strong></h3><p>页面源代码并不总是代表网页上将显示的内容，这是因为 CSS、JavaScript 和用户交互可以改变网页页面的内容和样式，这意味着我们需要一种方法来查看此时浏览器窗口中显示的内容，而 Element 检查器可以通过为我们提供当前网站网页上的实时显示内容来协助我们。</p>
-<p>除了查看实时视图，我们还可以编辑页面元素并与之交互，这有助于 Web 开发人员调试问题。在 Acme IT Support 网站上（目标示例站点），单击新闻部分，你将在其中看到三篇新闻文章。</p>
-<p>前两篇文章是可读的，但第三篇被阻止阅读，其内容上方有一条浮动通知，提示你必须是高级客户才能查看该文章。 这些阻止页面内容的浮动框通常被称为付费墙，因为该网站在你希望看到的内容前面设置了一堵隐喻性的墙，直到你付费为止。如图<br><img src="/2025/12/13/%E3%80%90THM%E3%80%91Walking%20An%20Application(%E9%81%8D%E5%8E%86Web%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F)/image-20251213221125622.png" alt="image-20251213221125622" style="zoom: 33%;"></p>
-<p>右键单击高级通知 ( 高级通知即paywall )，你应该能够从菜单中选择 Inspect 选项，这将根据你使用浏览器种类或偏好在底部或右侧打开开发者工具，然后你将看到构成网站的elements(元素)&#x2F;HTML（类似于下面的屏幕截图）。<br><img src="/2025/12/13/%E3%80%90THM%E3%80%91Walking%20An%20Application(%E9%81%8D%E5%8E%86Web%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F)/0e3f5c5c8dd02916d6fc2637461293a9.png" alt="img" style="zoom: 67%;"></p>
-<p>找到具有<code>premium-customer-blocker</code>类 的 <code>DIV</code> 元素并单击它。你将在样式框中看到适用于该元素的所有 CSS 样式，例如<code>margin-top: 60px</code>和<code>text-align: center</code>。 我们感兴趣的样式是<code>display: block</code>。 如果我们单击单词block，则可以键入自己选择的值，尝试输入 none，这将使得之前的浮动框消失，并显示其下方的内容和一个flag 。 </p>
-<img src="/2025/12/13/%E3%80%90THM%E3%80%91Walking%20An%20Application(%E9%81%8D%E5%8E%86Web%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F)/image-20251213221753527.png" alt="image-20251213221753527" style="zoom: 33%;">
-
-<p>试一试元素检查器，你会发现你可以更改网站上的任何信息，包括内容。请记住，这仅在你的浏览器窗口中进行编辑，当你按下刷新时，你在浏览器中正在查看的网页的一切内容都会恢复正常。</p>
-<h3 id="Debugger（调试器）"><a href="#Debugger（调试器）" class="headerlink" title="Debugger（调试器）"></a>Debugger（调试器）</h3><p>开发者工具中的这个面板用于调试 JavaScript，对于想要弄清楚为什么某些东西可能无法正常工作的人来说，同样是一个极好的功能。但作为渗透测试人员，它让我们可以深入挖掘 JavaScript 代码。在 Firefox 和 Safari 中，这个功能叫做调试器，但在 Google Chrome 里叫“Sources”。</p>
-<p>在 Acme IT Support 网站（目标站点）上，单击 contact 页面，每次加载页面时，你可能会注意到屏幕上会有快速闪烁的红色。 我们将使用调试器来确定这个红色闪光是什么以及它是否包含任何有趣的内容。调试这个红点并不会是你在现实世界中作为渗透测试人员会做的事情，该示例只是允许我们了解Debugger功能。</p>
-<p>在浏览器的左侧，你会看到当前网页正在使用的所有资源的列表。单击资产（assets ）文件夹，你将看到一个名为 flash.min.js 的文件，继续单击此文件将显示此 JavaScript 文件的内容。</p>
-<p>在浏览器中查看 javascript 文件时，你可能会注意到所有内容都在一行上，因为它已被最小化，这意味着所有格式（制表符、间距和换行符）都已被删除以使文件更小。 这个js文件也不例外，而且它被混淆了，这使得它很难被阅读，以保证它不能被其他开发者轻易复制。</p>
-<p>我们可以通过使用“Pretty Print”选项对js的内容应用格式，这个功能选项的标志像两个大括号 { } ，它能使js文件更具可读性。滚动到 flash.min.js 文件的底部，你将看到以下行：flash<a href>‘remove’</a>;<br><img src="/2025/12/13/%E3%80%90THM%E3%80%91Walking%20An%20Application(%E9%81%8D%E5%8E%86Web%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F)/d76d0b263799865be55d6725cbeaf21b.png" alt="img"></p>
-<p>这点 JavaScript 就是移除页面红色弹窗的原因。我们还可以使用调试器的另一个功能，称为 <strong>断点</strong> 。这些是代码中我们可以强制浏览器停止处理 JavaScript 并暂停当前执行的点。</p>
-<p>如果你点击包含上述代码的行号，你会注意到它会变成蓝色;你现在已经在这条线上插入了一个断点。现在试着刷新页面，你会发现红色框会留在页面上而不是消失，并且里面有一个flag。</p>
-<img src="/2025/12/13/%E3%80%90THM%E3%80%91Walking%20An%20Application(%E9%81%8D%E5%8E%86Web%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F)/image-20251213223156455.png" alt="image-20251213223156455" style="zoom:50%;">
-
-<h3 id="Network（网络）"><a href="#Network（网络）" class="headerlink" title="Network（网络）"></a>Network（网络）</h3><p>开发者工具上的网络选项卡可用于跟踪网页发出的每个外部请求。 如果你在开发者工具栏中单击“网络”选项卡，然后刷新页面，你将看到有关该页面请求的所有文件。</p>
-<p>尝试在目标站点的 contact 页面上执行此操作，如果列表的内容有点繁杂，你可以按垃圾桶图标清除列表。</p>
-<p>在网络选项卡打开的情况下，尝试在网页上填写联系表格并按下发送消息按钮，你会注意到网络选项卡中会出现一个相关的事件，该事件会包含一个在后台使用称为 AJAX 的方法提交的表单。 AJAX 是一种在 Web 应用程序后台发送和接收网络数据的方法，通过更改当前网页无法进行干扰。</p>
-<img src="/2025/12/13/%E3%80%90THM%E3%80%91Walking%20An%20Application(%E9%81%8D%E5%8E%86Web%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F)/9ec0890f159397547950ea1822994443.png" alt="img" style="zoom: 67%;">
-
-<p>查看在网络选项卡中出现的和contact 表单相关的新条目，查看响应消息以获取flag</p>
-<p><img src="/2025/12/13/%E3%80%90THM%E3%80%91Walking%20An%20Application(%E9%81%8D%E5%8E%86Web%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F)/image-20251213223904602.png" alt=" "></p>
-]]></content>
-      <categories>
-        <category>TryHackMe</category>
-      </categories>
-  </entry>
-  <entry>
     <title>文件上传漏洞</title>
     <url>/2025/12/08/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/</url>
     <content><![CDATA[<h3 id="漏洞介绍"><a href="#漏洞介绍" class="headerlink" title="漏洞介绍"></a>漏洞介绍</h3><p>文件上传漏洞是指用户上传了一个<strong>可执行的脚本文件</strong>，并通过此脚本文件获得了执行服务器端命令的能力。“文件上传” 本身没有问题，有问题的是文件上传后，服务器怎么处理、解释文件。如果服务器的处理逻辑做的不够安全，则会导致严重的后果。</p>
@@ -448,5 +384,69 @@
         <tag>Ctf-Web</tag>
         <tag>文件上传</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>【THM】Walking An Application(遍历Web应用程序)</title>
+    <url>/2025/12/13/%E3%80%90THM%E3%80%91Walking%20An%20Application(%E9%81%8D%E5%8E%86Web%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F)/</url>
+    <content><![CDATA[<h1 id="Walking-An-Application-遍历Web应用程序"><a href="#Walking-An-Application-遍历Web应用程序" class="headerlink" title="Walking An Application(遍历Web应用程序)"></a>Walking An Application(遍历Web应用程序)</h1><p>TryHackMe靶场地址：<a href="https://tryhackme.com/room/walkinganapplication">https://tryhackme.com/room/walkinganapplication</a></p>
+<p>学习目标：学习如何仅使用浏览器内置工具<strong>手动</strong>审查网页应用的安全问题。自动化安全工具和脚本往往会遗漏许多潜在漏洞和有用信息。</p>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>本房间中使用的内置浏览器工具的简要介绍：</p>
+<ul>
+<li><strong>查看源代码</strong>(<strong>View Source</strong>)——使用浏览器查看网站的人类可读源代码。</li>
+<li><strong>检查员</strong>(<strong>Inspector</strong>)——学习如何检查页面元素并进行修改以查看通常被屏蔽的内容。</li>
+<li><strong>调试器</strong>(<strong>Debugger</strong>) ——检查并控制页面 JavaScript 的流程</li>
+<li><strong>网络</strong>(<strong>Network</strong>)——查看页面发出的所有网络请求。</li>
+</ul>
+<h2 id="探索网站"><a href="#探索网站" class="headerlink" title="探索网站"></a>探索网站</h2><p>作为渗透测试员，您在审查网站或网页应用时的角色是发现可能存在漏洞的功能，并尝试利用这些漏洞来评估这些功能是否存在。这些功能通常是网站中需要与用户互动的部分。</p>
+<p>查找网站的交互部分就像发现登录表单然后手动查看网站的 JavaScript 一样简单。 一个很好的起点是使用你的浏览器访问目标网站，了解该网站的各个页面&#x2F;区域&#x2F;功能，并为每个页面&#x2F;区域&#x2F;功能做简单的信息记录</p>
+<p>Acme IT Support 示例站点的审查如下所示：</p>
+<p><img src="/2025/12/13/%E3%80%90THM%E3%80%91Walking%20An%20Application(%E9%81%8D%E5%8E%86Web%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F)/%E6%88%AA%E5%B1%8F2025-12-13%2021.33.06.png" alt=" "></p>
+<h2 id="查看网页源代码"><a href="#查看网页源代码" class="headerlink" title="查看网页源代码"></a>查看网页源代码</h2><p>页面源代码是每次我们请求时，从网页服务器返回给浏览器&#x2F;客户端的可读代码。返回的代码由 HTML（超文本标记语言）、CSS（层叠样式表）和 JavaScript 组成，它告诉浏览器要显示哪些内容、如何显示，并增加了与 JavaScript 的交互性元素。就我们而言，查看页面源代码有助于我们发现更多关于该网页应用的信息。</p>
+<p><strong>查看源代码三种方式</strong></p>
+<ul>
+<li>浏览网站时右击页面，菜单会显示“查看源代码”选项</li>
+<li>大多数浏览器支持在 URL 前面放置 <code>view-source</code>关键字，例如 :<code>view-source:https://www.google.com/</code>会直接显示网页源代码</li>
+<li>在浏览器菜单中，你会看到查看页面源代码的选项。这个选项有时会出现在子菜单中，比如开发者工具或更多工具。</li>
+</ul>
+<p><strong>分析常见网页源代码</strong></p>
+<p>页面顶部你会注意到一些代码以 <code>&lt;--</code> 到 <code>--&gt;</code> 结尾 ， 这些是html语言注释。这是开发者自己的代码解释或是留言。</p>
+<p>HTML 中指向不同页面的链接会写在锚标签中（这些是以 <code>&lt;a</code> 开头的 HTML 元素 ），而你被引导到的链接会存储在 <code>href</code> 属性中。</p>
+<p>例如，你会在第31行看到联系页面链接：<img src="/2025/12/13/%E3%80%90THM%E3%80%91Walking%20An%20Application(%E9%81%8D%E5%8E%86Web%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F)/ccc306acf34d0c83ffd18f33da1a5994.png" alt="img"></p>
+<p>如果你查看页面源码的更下方，有一个隐藏链接指向一个以“secr”开头的页面，点击这个链接可以获得另一个标记。在现实中你显然不会被标记，但你可能会发现公司用来存储公司&#x2F;员工&#x2F;客户信息的私人区域。</p>
+<p>外部文件如 CSS、JavaScript 和图片可以通过 HTML 代码包含。在这个例子中，你会注意到这些文件都存储在同一个目录中。如果你在网页浏览器中查看该目录，会有配置错误。应该显示的是空白页面或 403 禁止页面，错误提示您无法访问该目录。取而代之的是启用目录列表功能，实际上它列出了目录中的每个文件。有时这不是问题，目录中的所有文件都可以安全公开查看，<strong>但在某些情况下备份文件、源代码或其他机密信息可能被存储在这里</strong>。</p>
+<img src="/2025/12/13/%E3%80%90THM%E3%80%91Walking%20An%20Application(%E9%81%8D%E5%8E%86Web%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F)/%E6%88%AA%E5%B1%8F2025-12-13%2021.00.31.png" alt=" " style="zoom:50%;">
+
+<p>现在很多网站都不是从零开始做的，而是用所谓的框架。框架是一组预制代码，方便开发者包含网站所需的常见功能，如博客、用户管理、表单处理等，节省开发时间。查看页面源代码通常能让我们判断某个框架是否在使用，如果使用了，是哪个框架，甚至是哪个版本。了解框架和版本是个很有价值的发现，因为框架可能存在公开漏洞，网站可能不是最新版本。</p>
+<p>练习答案：</p>
+<p><img src="/2025/12/13/%E3%80%90THM%E3%80%91Walking%20An%20Application(%E9%81%8D%E5%8E%86Web%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F)/image-20251213220228260.png" alt="image-20251213220228260"></p>
+<h2 id="开发者工具"><a href="#开发者工具" class="headerlink" title="开发者工具"></a>开发者工具</h2><p>每个现代浏览器都包含开发者工具，这是一个帮助网页开发者调试网页应用的工具包，能让你一窥网站内部，了解实际情况。作为一名渗透测试员，我们可以利用这些工具更好地理解网页应用。我们特别关注开发者工具包的三个功能：检查器、调试器和网络。</p>
+<h3 id="Inspector（检查器）"><a href="#Inspector（检查器）" class="headerlink" title="Inspector（检查器）"></a><strong>Inspector（检查器）</strong></h3><p>页面源代码并不总是代表网页上将显示的内容，这是因为 CSS、JavaScript 和用户交互可以改变网页页面的内容和样式，这意味着我们需要一种方法来查看此时浏览器窗口中显示的内容，而 Element 检查器可以通过为我们提供当前网站网页上的实时显示内容来协助我们。</p>
+<p>除了查看实时视图，我们还可以编辑页面元素并与之交互，这有助于 Web 开发人员调试问题。在 Acme IT Support 网站上（目标示例站点），单击新闻部分，你将在其中看到三篇新闻文章。</p>
+<p>前两篇文章是可读的，但第三篇被阻止阅读，其内容上方有一条浮动通知，提示你必须是高级客户才能查看该文章。 这些阻止页面内容的浮动框通常被称为付费墙，因为该网站在你希望看到的内容前面设置了一堵隐喻性的墙，直到你付费为止。如图<br><img src="/2025/12/13/%E3%80%90THM%E3%80%91Walking%20An%20Application(%E9%81%8D%E5%8E%86Web%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F)/image-20251213221125622.png" alt="image-20251213221125622" style="zoom: 33%;"></p>
+<p>右键单击高级通知 ( 高级通知即paywall )，你应该能够从菜单中选择 Inspect 选项，这将根据你使用浏览器种类或偏好在底部或右侧打开开发者工具，然后你将看到构成网站的elements(元素)&#x2F;HTML（类似于下面的屏幕截图）。<br><img src="/2025/12/13/%E3%80%90THM%E3%80%91Walking%20An%20Application(%E9%81%8D%E5%8E%86Web%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F)/0e3f5c5c8dd02916d6fc2637461293a9.png" alt="img" style="zoom: 67%;"></p>
+<p>找到具有<code>premium-customer-blocker</code>类 的 <code>DIV</code> 元素并单击它。你将在样式框中看到适用于该元素的所有 CSS 样式，例如<code>margin-top: 60px</code>和<code>text-align: center</code>。 我们感兴趣的样式是<code>display: block</code>。 如果我们单击单词block，则可以键入自己选择的值，尝试输入 none，这将使得之前的浮动框消失，并显示其下方的内容和一个flag 。 </p>
+<img src="/2025/12/13/%E3%80%90THM%E3%80%91Walking%20An%20Application(%E9%81%8D%E5%8E%86Web%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F)/image-20251213221753527.png" alt="image-20251213221753527" style="zoom: 33%;">
+
+<p>试一试元素检查器，你会发现你可以更改网站上的任何信息，包括内容。请记住，这仅在你的浏览器窗口中进行编辑，当你按下刷新时，你在浏览器中正在查看的网页的一切内容都会恢复正常。</p>
+<h3 id="Debugger（调试器）"><a href="#Debugger（调试器）" class="headerlink" title="Debugger（调试器）"></a>Debugger（调试器）</h3><p>开发者工具中的这个面板用于调试 JavaScript，对于想要弄清楚为什么某些东西可能无法正常工作的人来说，同样是一个极好的功能。但作为渗透测试人员，它让我们可以深入挖掘 JavaScript 代码。在 Firefox 和 Safari 中，这个功能叫做调试器，但在 Google Chrome 里叫“Sources”。</p>
+<p>在 Acme IT Support 网站（目标站点）上，单击 contact 页面，每次加载页面时，你可能会注意到屏幕上会有快速闪烁的红色。 我们将使用调试器来确定这个红色闪光是什么以及它是否包含任何有趣的内容。调试这个红点并不会是你在现实世界中作为渗透测试人员会做的事情，该示例只是允许我们了解Debugger功能。</p>
+<p>在浏览器的左侧，你会看到当前网页正在使用的所有资源的列表。单击资产（assets ）文件夹，你将看到一个名为 flash.min.js 的文件，继续单击此文件将显示此 JavaScript 文件的内容。</p>
+<p>在浏览器中查看 javascript 文件时，你可能会注意到所有内容都在一行上，因为它已被最小化，这意味着所有格式（制表符、间距和换行符）都已被删除以使文件更小。 这个js文件也不例外，而且它被混淆了，这使得它很难被阅读，以保证它不能被其他开发者轻易复制。</p>
+<p>我们可以通过使用“Pretty Print”选项对js的内容应用格式，这个功能选项的标志像两个大括号 { } ，它能使js文件更具可读性。滚动到 flash.min.js 文件的底部，你将看到以下行：flash<a href>‘remove’</a>;<br><img src="/2025/12/13/%E3%80%90THM%E3%80%91Walking%20An%20Application(%E9%81%8D%E5%8E%86Web%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F)/d76d0b263799865be55d6725cbeaf21b.png" alt="img"></p>
+<p>这点 JavaScript 就是移除页面红色弹窗的原因。我们还可以使用调试器的另一个功能，称为 <strong>断点</strong> 。这些是代码中我们可以强制浏览器停止处理 JavaScript 并暂停当前执行的点。</p>
+<p>如果你点击包含上述代码的行号，你会注意到它会变成蓝色;你现在已经在这条线上插入了一个断点。现在试着刷新页面，你会发现红色框会留在页面上而不是消失，并且里面有一个flag。</p>
+<img src="/2025/12/13/%E3%80%90THM%E3%80%91Walking%20An%20Application(%E9%81%8D%E5%8E%86Web%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F)/image-20251213223156455.png" alt="image-20251213223156455" style="zoom:50%;">
+
+<h3 id="Network（网络）"><a href="#Network（网络）" class="headerlink" title="Network（网络）"></a>Network（网络）</h3><p>开发者工具上的网络选项卡可用于跟踪网页发出的每个外部请求。 如果你在开发者工具栏中单击“网络”选项卡，然后刷新页面，你将看到有关该页面请求的所有文件。</p>
+<p>尝试在目标站点的 contact 页面上执行此操作，如果列表的内容有点繁杂，你可以按垃圾桶图标清除列表。</p>
+<p>在网络选项卡打开的情况下，尝试在网页上填写联系表格并按下发送消息按钮，你会注意到网络选项卡中会出现一个相关的事件，该事件会包含一个在后台使用称为 AJAX 的方法提交的表单。 AJAX 是一种在 Web 应用程序后台发送和接收网络数据的方法，通过更改当前网页无法进行干扰。</p>
+<img src="/2025/12/13/%E3%80%90THM%E3%80%91Walking%20An%20Application(%E9%81%8D%E5%8E%86Web%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F)/9ec0890f159397547950ea1822994443.png" alt="img" style="zoom: 67%;">
+
+<p>查看在网络选项卡中出现的和contact 表单相关的新条目，查看响应消息以获取flag</p>
+<p><img src="/2025/12/13/%E3%80%90THM%E3%80%91Walking%20An%20Application(%E9%81%8D%E5%8E%86Web%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F)/image-20251213223904602.png" alt=" "></p>
+]]></content>
+      <categories>
+        <category>TryHackMe</category>
+      </categories>
   </entry>
 </search>
