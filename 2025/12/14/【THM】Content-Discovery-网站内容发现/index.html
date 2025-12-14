@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 8.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.26.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="TryHackMe靶机地址：https:&#x2F;&#x2F;tryhackme.com&#x2F;room&#x2F;contentdiscovery 什么是网站内容发现？首先，我们应该问，在网络应用安全的背景下，什么是内容？内容可以是很多东西，比如文件、视频、图片、备份、网站功能。当我们谈论内容发现时，我们不是指网站上那些显而易见的内容;而是那些没有立即呈现给我们、也不总是为公众准备的内容。 这些内容可以是，例如：面向员工使用的页">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【THM】Content Discovery(网站内容发现)">
+<meta property="og:url" content="http://example.com/2025/12/14/%E3%80%90THM%E3%80%91Content-Discovery-%E7%BD%91%E7%AB%99%E5%86%85%E5%AE%B9%E5%8F%91%E7%8E%B0/index.html">
+<meta property="og:site_name" content="Blog">
+<meta property="og:description" content="TryHackMe靶机地址：https:&#x2F;&#x2F;tryhackme.com&#x2F;room&#x2F;contentdiscovery 什么是网站内容发现？首先，我们应该问，在网络应用安全的背景下，什么是内容？内容可以是很多东西，比如文件、视频、图片、备份、网站功能。当我们谈论内容发现时，我们不是指网站上那些显而易见的内容;而是那些没有立即呈现给我们、也不总是为公众准备的内容。 这些内容可以是，例如：面向员工使用的页">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2025/12/14/%E3%80%90THM%E3%80%91Content-Discovery-%E7%BD%91%E7%AB%99%E5%86%85%E5%AE%B9%E5%8F%91%E7%8E%B0/image-20251214103744298.png">
+<meta property="og:image" content="http://example.com/2025/12/14/%E3%80%90THM%E3%80%91Content-Discovery-%E7%BD%91%E7%AB%99%E5%86%85%E5%AE%B9%E5%8F%91%E7%8E%B0/image-20251214105122101.png">
+<meta property="og:image" content="http://example.com/Library/Application%20Support/typora-user-images/image-20251214105257464.png">
+<meta property="og:image" content="http://example.com/2025/12/14/%E3%80%90THM%E3%80%91Content-Discovery-%E7%BD%91%E7%AB%99%E5%86%85%E5%AE%B9%E5%8F%91%E7%8E%B0/42a556740d021fc3e7111a689dcadb28.png">
+<meta property="og:image" content="http://example.com/2025/12/14/%E3%80%90THM%E3%80%91Content-Discovery-%E7%BD%91%E7%AB%99%E5%86%85%E5%AE%B9%E5%8F%91%E7%8E%B0/image-20251214105543076.png">
+<meta property="og:image" content="http://example.com/2025/12/14/%E3%80%90THM%E3%80%91Content-Discovery-%E7%BD%91%E7%AB%99%E5%86%85%E5%AE%B9%E5%8F%91%E7%8E%B0/image-20251214105638751.png">
+<meta property="og:image" content="http://example.com/2025/12/14/%E3%80%90THM%E3%80%91Content-Discovery-%E7%BD%91%E7%AB%99%E5%86%85%E5%AE%B9%E5%8F%91%E7%8E%B0/image-20251214110143877.png">
+<meta property="og:image" content="http://example.com/2025/12/14/%E3%80%90THM%E3%80%91Content-Discovery-%E7%BD%91%E7%AB%99%E5%86%85%E5%AE%B9%E5%8F%91%E7%8E%B0/image-20251214110734961.png">
+<meta property="og:image" content="http://example.com/2025/12/14/%E3%80%90THM%E3%80%91Content-Discovery-%E7%BD%91%E7%AB%99%E5%86%85%E5%AE%B9%E5%8F%91%E7%8E%B0/image-20251214110843293.png">
+<meta property="og:image" content="http://example.com/2025/12/14/%E3%80%90THM%E3%80%91Content-Discovery-%E7%BD%91%E7%AB%99%E5%86%85%E5%AE%B9%E5%8F%91%E7%8E%B0/image-20251214111236272.png">
+<meta property="og:image" content="http://example.com/2025/12/14/%E3%80%90THM%E3%80%91Content-Discovery-%E7%BD%91%E7%AB%99%E5%86%85%E5%AE%B9%E5%8F%91%E7%8E%B0/image-20251214111403633.png">
+<meta property="og:image" content="http://example.com/2025/12/14/%E3%80%90THM%E3%80%91Content-Discovery-%E7%BD%91%E7%AB%99%E5%86%85%E5%AE%B9%E5%8F%91%E7%8E%B0/image-20251214111845652.png">
+<meta property="og:image" content="http://example.com/2025/12/14/%E3%80%90THM%E3%80%91Content-Discovery-%E7%BD%91%E7%AB%99%E5%86%85%E5%AE%B9%E5%8F%91%E7%8E%B0/image-20251214112711480.png">
+<meta property="og:image" content="http://example.com/2025/12/14/%E3%80%90THM%E3%80%91Content-Discovery-%E7%BD%91%E7%AB%99%E5%86%85%E5%AE%B9%E5%8F%91%E7%8E%B0/image-20251214113152820.png">
+<meta property="og:image" content="http://example.com/2025/12/14/%E3%80%90THM%E3%80%91Content-Discovery-%E7%BD%91%E7%AB%99%E5%86%85%E5%AE%B9%E5%8F%91%E7%8E%B0/image-20251214115140909.png">
+<meta property="og:image" content="http://example.com/2025/12/14/%E3%80%90THM%E3%80%91Content-Discovery-%E7%BD%91%E7%AB%99%E5%86%85%E5%AE%B9%E5%8F%91%E7%8E%B0/image-20251214115354996.png">
+<meta property="article:published_time" content="2025-12-14T02:34:26.000Z">
+<meta property="article:modified_time" content="2025-12-14T03:55:40.648Z">
+<meta property="article:author" content="Csvpir">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2025/12/14/%E3%80%90THM%E3%80%91Content-Discovery-%E7%BD%91%E7%AB%99%E5%86%85%E5%AE%B9%E5%8F%91%E7%8E%B0/image-20251214103744298.png">
+
+
+<link rel="canonical" href="http://example.com/2025/12/14/%E3%80%90THM%E3%80%91Content-Discovery-%E7%BD%91%E7%AB%99%E5%86%85%E5%AE%B9%E5%8F%91%E7%8E%B0/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2025/12/14/%E3%80%90THM%E3%80%91Content-Discovery-%E7%BD%91%E7%AB%99%E5%86%85%E5%AE%B9%E5%8F%91%E7%8E%B0/","path":"2025/12/14/【THM】Content-Discovery-网站内容发现/","title":"【THM】Content Discovery(网站内容发现)"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>【THM】Content Discovery(网站内容发现) | Blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script size="300" alpha="0.6" zIndex="-1" src="https://cdnjs.cloudflare.com/ajax/libs/ribbon.js/1.0.2/ribbon.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于我</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E7%BD%91%E7%AB%99%E5%86%85%E5%AE%B9%E5%8F%91%E7%8E%B0%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">什么是网站内容发现？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%89%8B%E5%8A%A8%E5%8F%91%E7%8E%B0"><span class="nav-number">2.</span> <span class="nav-text">手动发现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Robots-txt"><span class="nav-number">2.1.</span> <span class="nav-text">Robots.txt</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Favicon"><span class="nav-number">2.2.</span> <span class="nav-text">Favicon</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Sitemap-xml"><span class="nav-number">2.3.</span> <span class="nav-text">Sitemap.xml</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTP%E6%A0%87%E5%A4%B4"><span class="nav-number">2.4.</span> <span class="nav-text">HTTP标头</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A1%86%E6%9E%B6%E5%A0%86%E6%A0%88"><span class="nav-number">2.5.</span> <span class="nav-text">框架堆栈</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#OSINT-%E5%BC%80%E6%BA%90%E6%83%85%E6%8A%A5"><span class="nav-number">3.</span> <span class="nav-text">OSINT(开源情报)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Google-Hacking-Dorking%EF%BC%88%E8%B0%B7%E6%AD%8CHack%E8%AF%AD%E6%B3%95%EF%BC%89"><span class="nav-number">3.1.</span> <span class="nav-text">Google Hacking &#x2F; Dorking（谷歌Hack语法）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Wappalyzer"><span class="nav-number">3.2.</span> <span class="nav-text">Wappalyzer</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Wayback-Machine"><span class="nav-number">3.3.</span> <span class="nav-text">Wayback Machine</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GitHub"><span class="nav-number">3.4.</span> <span class="nav-text">GitHub</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#S3-Buckets%EF%BC%88S3%E5%AD%98%E5%82%A8%E6%A1%B6%EF%BC%89"><span class="nav-number">3.5.</span> <span class="nav-text">S3 Buckets（S3存储桶）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%87%AA%E5%8A%A8%E5%8F%91%E7%8E%B0%E7%BD%91%E7%AB%99%E5%86%85%E5%AE%B9"><span class="nav-number">4.</span> <span class="nav-text">自动发现网站内容</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E8%87%AA%E5%8A%A8%E5%8F%91%E7%8E%B0%EF%BC%9F"><span class="nav-number">4.1.</span> <span class="nav-text">什么是自动发现？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFwordlists%EF%BC%88%E5%AD%97%E5%85%B8%EF%BC%89%EF%BC%9F"><span class="nav-number">4.2.</span> <span class="nav-text">什么是wordlists（字典）？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E5%8A%A8%E5%8C%96%E5%B7%A5%E5%85%B7"><span class="nav-number">4.3.</span> <span class="nav-text">自动化工具</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Csvpir"
+      src="/images/touxiang.jpg">
+  <p class="site-author-name" itemprop="name">Csvpir</p>
+  <div class="site-description" itemprop="description">本博客仅记录分享一些个人学习成长经历。</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2025/12/14/%E3%80%90THM%E3%80%91Content-Discovery-%E7%BD%91%E7%AB%99%E5%86%85%E5%AE%B9%E5%8F%91%E7%8E%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/touxiang.jpg">
+      <meta itemprop="name" content="Csvpir">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+      <meta itemprop="description" content="本博客仅记录分享一些个人学习成长经历。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="【THM】Content Discovery(网站内容发现) | Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【THM】Content Discovery(网站内容发现)
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2025-12-14 10:34:26 / 修改时间：11:55:40" itemprop="dateCreated datePublished" datetime="2025-12-14T10:34:26+08:00">2025-12-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/TryHackMe/" itemprop="url" rel="index"><span itemprop="name">TryHackMe</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>5.2k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>5 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>TryHackMe靶机地址：<a target="_blank" rel="noopener" href="https://tryhackme.com/room/contentdiscovery">https://tryhackme.com/room/contentdiscovery</a></p>
+<h1 id="什么是网站内容发现？"><a href="#什么是网站内容发现？" class="headerlink" title="什么是网站内容发现？"></a>什么是网站内容发现？</h1><p>首先，我们应该问，在网络应用安全的背景下，什么是内容？内容可以是很多东西，比如文件、视频、图片、备份、网站功能。当我们谈论内容发现时，我们不是指网站上那些显而易见的内容;而是那些没有立即呈现给我们、也不总是为公众准备的内容。</p>
+<p>这些内容可以是，例如：面向员工使用的页面或门户、网站的旧版本、备份文件、配置文件、管理面板等。</p>
+<p>我们将介绍在网站上发现内容的三种主要方式。手动、自动发现和开源情报（OSINT）。</p>
+<p>习题：</p>
+<p><img src="/2025/12/14/%E3%80%90THM%E3%80%91Content-Discovery-%E7%BD%91%E7%AB%99%E5%86%85%E5%AE%B9%E5%8F%91%E7%8E%B0/image-20251214103744298.png" alt="image-20251214103744298"></p>
+<h1 id="手动发现"><a href="#手动发现" class="headerlink" title="手动发现"></a>手动发现</h1><p>网站上有多个地方可以手动查看，开始发现更多内容。</p>
+<h2 id="Robots-txt"><a href="#Robots-txt" class="headerlink" title="Robots.txt"></a><strong>Robots.txt</strong></h2><p>robots.txt 文件是一份文档，告诉搜索引擎哪些页面允许显示、哪些不允许出现在搜索引擎结果中，或者禁止特定搜索引擎完全爬取该网站。限制某些网站区域以避免出现在搜索引擎结果中是常见做法。这些页面可能是管理门户或面向网站用户的文件。这个文件为我们提供了网站上一些老板不希望我们被渗透测试人员发现的地点列表。</p>
+<p>看看 Acme IT 支持网站上的 robots.txt 文件，看看他们是否有不想被爬的内容—打开攻击机，输入 url: <a target="_blank" rel="noopener" href="http://10.49.176.96/robots.txt">http://10.49.176.96/robots.txt</a> </p>
+<p><img src="/2025/12/14/%E3%80%90THM%E3%80%91Content-Discovery-%E7%BD%91%E7%AB%99%E5%86%85%E5%AE%B9%E5%8F%91%E7%8E%B0/image-20251214105122101.png" alt="image-20251214105122101"></p>
+<p>习题：</p>
+<p><img src="/../../../Library/Application%20Support/typora-user-images/image-20251214105257464.png" alt="image-20251214105257464"></p>
+<h2 id="Favicon"><a href="#Favicon" class="headerlink" title="Favicon"></a><strong>Favicon</strong></h2><p>favicon 是一个小图标，显示在浏览器的地址栏或选项卡中，用于品牌化网站。</p>
+<p><img src="/2025/12/14/%E3%80%90THM%E3%80%91Content-Discovery-%E7%BD%91%E7%AB%99%E5%86%85%E5%AE%B9%E5%8F%91%E7%8E%B0/42a556740d021fc3e7111a689dcadb28.png" alt="img"></p>
+<p>有时在使用框架构建网站时，安装过程中会留下一个标签，如果网站开发者没有用自定义模板替换，这可以给我们一个线索，知道使用的是哪个框架。</p>
+<p>OWASP 托管了一个常见网站框架图标的数据库，你可以使用它来检查目标的favicon（图标）以查看该图标对应的网站框架是什么：<code>https://wiki.owasp.org/index.php/OWASP_favicon_database</code></p>
+<p>一旦我们知道了网站当前使用的框架堆栈，我们就可以使用外部资源来发现更多关于它的信息。</p>
+<p>在 攻击机上，打开 Firefox 并输入 网址 <a target="_blank" rel="noopener" href="https://static-labs.tryhackme.cloud/sites/favicon/%EF%BC%8C%E4%BD%A0%E4%BC%9A%E7%9C%8B%E5%88%B0%E4%B8%80%E4%B8%AA%E5%9F%BA%E7%A1%80%E7%BD%91%E7%AB%99%EF%BC%8C%E5%B9%B6%E9%99%84%E6%9C%89%E2%80%9C%E7%BD%91%E7%AB%99%E5%8D%B3%E5%B0%86%E4%B8%8A%E7%BA%BF......%E2%80%9D%E7%9A%84%E8%AF%B4%E6%98%8E%EF%BC%8C%E5%A6%82%E6%9E%9C%E4%BD%A0%E6%9F%A5%E7%9C%8B%E6%A0%87%E7%AD%BE%E9%A1%B5%EF%BC%8C%E4%BC%9A%E7%9C%8B%E5%88%B0%E4%B8%80%E4%B8%AA%E5%9B%BE%E6%A0%87%E7%A1%AE%E8%AE%A4%E8%AF%A5%E7%BD%91%E7%AB%99%E4%BD%BF%E7%94%A8%E4%BA%86">https://static-labs.tryhackme.cloud/sites/favicon/，你会看到一个基础网站，并附有“网站即将上线......”的说明，如果你查看标签页，会看到一个图标确认该网站使用了</a> favicon。</p>
+<p><img src="/2025/12/14/%E3%80%90THM%E3%80%91Content-Discovery-%E7%BD%91%E7%AB%99%E5%86%85%E5%AE%B9%E5%8F%91%E7%8E%B0/image-20251214105543076.png" alt="image-20251214105543076"></p>
+<p>查看页面源代码时，你会看到第六行包含图片&#x2F;favicon.ico 文件的链接。</p>
+<p><img src="/2025/12/14/%E3%80%90THM%E3%80%91Content-Discovery-%E7%BD%91%E7%AB%99%E5%86%85%E5%AE%B9%E5%8F%91%E7%8E%B0/image-20251214105638751.png" alt="image-20251214105638751"></p>
+<p>在 攻击机上运行以下命令，它将下载目标网页相关的 favicon 并获取其 md5 哈希值，然后你可以通过上面给出的<a target="_blank" rel="noopener" href="https://wiki.owasp.org/index.php/OWASP_favicon_database">在线网站</a>查找该图标对应的网站框架：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">user@machine$ </span><span class="language-bash">curl https://static-labs.tryhackme.cloud/sites/favicon/images/favicon.ico | <span class="built_in">md5sum</span></span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/2025/12/14/%E3%80%90THM%E3%80%91Content-Discovery-%E7%BD%91%E7%AB%99%E5%86%85%E5%AE%B9%E5%8F%91%E7%8E%B0/image-20251214110143877.png" alt="image-20251214110143877"></p>
+<p>将这串md5到那个网站上去查得到<img src="/2025/12/14/%E3%80%90THM%E3%80%91Content-Discovery-%E7%BD%91%E7%AB%99%E5%86%85%E5%AE%B9%E5%8F%91%E7%8E%B0/image-20251214110734961.png" alt="image-20251214110734961"></p>
+<p>习题：</p>
+<p><img src="/2025/12/14/%E3%80%90THM%E3%80%91Content-Discovery-%E7%BD%91%E7%AB%99%E5%86%85%E5%AE%B9%E5%8F%91%E7%8E%B0/image-20251214110843293.png" alt="image-20251214110843293"></p>
+<h2 id="Sitemap-xml"><a href="#Sitemap-xml" class="headerlink" title="Sitemap.xml"></a><strong>Sitemap.xml</strong></h2><p>与限制搜索引擎爬虫访问内容的 robots.txt 文件不同。Sitemap.xml文件列出了网站所有者希望在搜索引擎中列出的所有文件。这些页面有时会包含网站中较难导航的区域，甚至列出一些当前网站已不再使用的旧网页，但这些页面仍在幕后运行。</p>
+<p>查看 Acme IT Support 网站（目标示例站点）上的 sitemap.xml 文件，查看是否有我们尚未发现的网站新内容：<code>http://10.49.176.96/sitemap.xml</code></p>
+<p>发现隐藏目录</p>
+<p><img src="/2025/12/14/%E3%80%90THM%E3%80%91Content-Discovery-%E7%BD%91%E7%AB%99%E5%86%85%E5%AE%B9%E5%8F%91%E7%8E%B0/image-20251214111236272.png" alt="image-20251214111236272"></p>
+<p>习题：</p>
+<p><img src="/2025/12/14/%E3%80%90THM%E3%80%91Content-Discovery-%E7%BD%91%E7%AB%99%E5%86%85%E5%AE%B9%E5%8F%91%E7%8E%B0/image-20251214111403633.png" alt="image-20251214111403633"></p>
+<h2 id="HTTP标头"><a href="#HTTP标头" class="headerlink" title="HTTP标头"></a><strong>HTTP标头</strong></h2><p>当我们向 Web 服务器发出请求时，服务器会返回各种 HTTP 标头。 这些标头有时可能会包含一些有用的信息，例如web服务器软件，可能还有网站 当前正在使用的编程&#x2F;脚本语言。 在下面的示例中，我们可以看到web服务器是 NGINX 版本为 1.18.0 ，运行的 PHP 版本是 7.4.3。 通过这些信息，我们可以找到正在使用的易受攻击的相关软件版本。 </p>
+<p>现在尝试对 Web 服务器运行 curl 命令，使用 -v 开关开启详细模式，这将输出HTTP标头的详细信息（可能会有一些有趣的东西！）。 </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">user@machine$ </span><span class="language-bash">curl http://10.49.176.96 -v</span></span><br><span class="line">*   Trying 10.49.176.96:80...</span><br><span class="line">* TCP_NODELAY set</span><br><span class="line">* Connected to 10.49.176.96 (10.49.176.96) port 80 (#0)</span><br><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash">GET / HTTP/1.1</span></span><br><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash">Host: 10.49.176.96</span></span><br><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash">User-Agent: curl/7.68.0</span></span><br><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash">Accept: */*</span></span><br><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash"></span></span><br><span class="line"><span class="language-bash">* Mark bundle as not supporting multiuse</span></span><br><span class="line">&lt; HTTP/1.1 200 OK</span><br><span class="line">&lt; Server: nginx/1.18.0 (Ubuntu)</span><br><span class="line">&lt; X-Powered-By: PHP/7.4.3</span><br><span class="line">&lt; Date: Mon, 19 Jul 2021 14:39:09 GMT</span><br><span class="line">&lt; Content-Type: text/html; charset=UTF-8</span><br><span class="line">&lt; Transfer-Encoding: chunked</span><br><span class="line">&lt; Connection: keep-alive</span><br></pre></td></tr></table></figure>
+
+<p>可以看到返回值里的flag</p>
+<p><img src="/2025/12/14/%E3%80%90THM%E3%80%91Content-Discovery-%E7%BD%91%E7%AB%99%E5%86%85%E5%AE%B9%E5%8F%91%E7%8E%B0/image-20251214111845652.png" alt="image-20251214111845652"></p>
+<p>习题：</p>
+<p>What is the flag value from the X-FLAG header?</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">THM&#123;HEADER_FLAG&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="框架堆栈"><a href="#框架堆栈" class="headerlink" title="框架堆栈"></a><strong>框架堆栈</strong></h2><p>一旦你确认了目标网站正在使用的网站框架，无论是从上面的 favicon 示例中，还是通过在页面源码中寻找诸如comments、版权声明或credits等线索，你可以尝试找到关于网站框架的来源网站，然后我们就可以了解有关该框架的更多信息，以便我们发现更多关于目标网站的内容。</p>
+<p>查看我们的 Acme IT Support 网站(<a target="_blank" rel="noopener" href="http://10.49.176.96/">http://10.49.176.96</a>)的页面源码，你会在末尾看到一条评论，其中包含了该页面加载时间以及一个指向框架来源网站的链接。 让我们查看框架的来源网站。 框架来源网站的文档页面为我们提供了关于框架管理门户的路径，我们可以在Acme IT Support 网站上访问该路径，从而帮助我们在本次实验环境下获取一个flag。</p>
+<p>根据提示得到登陆框默认用户admin&#x2F;admin进入得到flag</p>
+<p><img src="/2025/12/14/%E3%80%90THM%E3%80%91Content-Discovery-%E7%BD%91%E7%AB%99%E5%86%85%E5%AE%B9%E5%8F%91%E7%8E%B0/image-20251214112711480.png" alt="image-20251214112711480"></p>
+<p>习题：What is the flag from the framework’s administration portal?</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">THM&#123;CHANGE_DEFAULT_CREDENTIALS&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="OSINT-开源情报"><a href="#OSINT-开源情报" class="headerlink" title="OSINT(开源情报)"></a>OSINT(开源情报)</h1><h2 id="Google-Hacking-Dorking（谷歌Hack语法）"><a href="#Google-Hacking-Dorking（谷歌Hack语法）" class="headerlink" title="Google Hacking &#x2F; Dorking（谷歌Hack语法）"></a><strong>Google Hacking &#x2F; Dorking（谷歌Hack语法）</strong></h2><p>Google hacking &#x2F; Dorking (谷歌Hack语法)能够利用 Google 的高级搜索引擎功能，从而允许你搜索一些自定义内容。</p>
+<p> 你可以通过使用谷歌Hack语法site: 从某个域名中筛选搜索结果，例如 (site:tryhackme.com) ；</p>
+<p>你也可以将该语法与某些搜索词进行匹配，例如 admin (site:tryhackme.com admin) ，这会返回来自 tryhackme.com 网站且内容中包含单词admin的搜索结果。</p>
+<p>你也可以组合多个过滤器。这里是一个你可以使用的更多过滤器示例：</p>
+<p><img src="/2025/12/14/%E3%80%90THM%E3%80%91Content-Discovery-%E7%BD%91%E7%AB%99%E5%86%85%E5%AE%B9%E5%8F%91%E7%8E%B0/image-20251214113152820.png" alt="image-20251214113152820"></p>
+<p>习题：What Google dork operator can be used to only show results from a particular site?</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">site:</span><br></pre></td></tr></table></figure>
+
+<h2 id="Wappalyzer"><a href="#Wappalyzer" class="headerlink" title="Wappalyzer"></a>Wappalyzer</h2><p>Wappalyzer（<a target="_blank" rel="noopener" href="https://www.wappalyzer.com/%EF%BC%89%E6%98%AF%E4%B8%80%E6%AC%BE%E5%9C%A8%E7%BA%BF%E5%B7%A5%E5%85%B7%E5%92%8C%E6%B5%8F%E8%A7%88%E5%99%A8%E6%89%A9%E5%B1%95%EF%BC%8C%E5%B8%AE%E5%8A%A9%E8%AF%86%E5%88%AB%E7%BD%91%E7%AB%99%E4%BD%BF%E7%94%A8%E7%9A%84%E6%8A%80%E6%9C%AF%EF%BC%8C%E5%A6%82%E6%A1%86%E6%9E%B6%E3%80%81%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%EF%BC%88CMS%EF%BC%89%E3%80%81%E6%94%AF%E4%BB%98%E5%A4%84%E7%90%86%E5%95%86%E7%AD%89%EF%BC%8C%E7%94%9A%E8%87%B3%E8%BF%98%E8%83%BD%E6%9F%A5%E6%89%BE%E7%89%88%E6%9C%AC%E5%8F%B7%E3%80%82">https://www.wappalyzer.com/）是一款在线工具和浏览器扩展，帮助识别网站使用的技术，如框架、内容管理系统（CMS）、支付处理商等，甚至还能查找版本号。</a></p>
+<p>习题：What online tool can be used to identify what technologies a website is running?</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Wappalyzer</span><br></pre></td></tr></table></figure>
+
+<h2 id="Wayback-Machine"><a href="#Wayback-Machine" class="headerlink" title="Wayback Machine"></a><strong>Wayback Machine</strong></h2><p>Wayback Machine ( <a target="_blank" rel="noopener" href="https://archive.org/web/">https://archive.org/web/</a> )是一个可追溯到 90 年代后期的网站历史档案，你可以在该网站上搜索一个域名，它会显示该网站服务抓取网页并保存内容的所有历史时间。该网站服务可以帮助我们发现在当前网站上可能仍处于活动状态的一些旧页面。</p>
+<p>习题：What is the website address for the Wayback Machine?</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://archive.org/web/</span><br></pre></td></tr></table></figure>
+
+<h2 id="GitHub"><a href="#GitHub" class="headerlink" title="GitHub"></a><strong>GitHub</strong></h2><p>要了解 GitHub，首先需要了解 Git。 </p>
+<p>Git 是一个版本控制系统（version control system），用于跟踪项目中文件的更改情况。 这使得团队工作变得更容易，因为你可以看到每个团队成员正在编辑的内容以及他们对文件所做的一些更改。 当 Git 用户完成文件更改后，他们会通过一条消息提交它们，然后将它们推送回项目中心位置（存储库），以供其他用户将这些更改拉到他们的本地计算机上。 </p>
+<p>GitHub 是托管在互联网上的 Git 版本。 GitHub 上的存储库可以设置为公共或私有，并具有各种访问控制功能。 你可以使用 GitHub 的搜索功能来查找公司名称或网站名称，以尝试找到属于目标网站的存储库。 一旦有所发现，你就可以访问你尚未找到的目标网站或者目标框架的源代码、目标可能使用的默认密码或其他内容。</p>
+<p>习题：What is Git?</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">version control system</span><br></pre></td></tr></table></figure>
+
+<h2 id="S3-Buckets（S3存储桶）"><a href="#S3-Buckets（S3存储桶）" class="headerlink" title="S3 Buckets（S3存储桶）"></a>S3 Buckets（S3存储桶）</h2><p>S3 Buckets 是 Amazon AWS 提供的一种存储服务，它允许人们将文件或者静态网站内容保存在云中，然后可以通过 HTTP 和 HTTPS 进行访问操作。 文件的所有者可以设置访问权限以使文件公开、私有甚至可写。 有时这些访问权限设置并不正确，文件所有者可能在无意中设置 允许访客访问不应向公众提供的文件。</p>
+<p>S3 存储桶的格式为 <code>http(s)://{name}.s3.amazonaws.com </code>，其中<code>{name}</code>由所有者自己决定，例如<code>tryhackme-assets.s3.amazonaws.com</code>。</p>
+<p>我们可以通过多种方式发现 S3 存储桶，例如在网站的页面源码中、在GitHub 存储库中查找目标URL，我们甚至能够自动化进行发现S3 存储桶的过程。</p>
+<p>一种常见的自动化发现S3 Buckets的方法是：使用公司名称后跟常用术语自行拼接url，例如 {name}-assets、{name}-www、{name}-public、{name}-private 等，后面跟上.s3.amazonaws.com进行url拼接即可。</p>
+<p>习题：What URL format do Amazon S3 buckets end in?</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.s3.amazonaws.com</span><br></pre></td></tr></table></figure>
+
+<h1 id="自动发现网站内容"><a href="#自动发现网站内容" class="headerlink" title="自动发现网站内容"></a>自动发现网站内容</h1><h2 id="什么是自动发现？"><a href="#什么是自动发现？" class="headerlink" title="什么是自动发现？"></a><strong>什么是自动发现？</strong></h2><p>自动发现是一个使用工具发现网站内容而不是手动发现网站内容的过程。 此过程是自动化的，因为它通常会发送针对目标 Web 服务器的数百、数千甚至数百万个请求，这些请求会检查目标网站上是否存在某些文件或某些目录，以便让我们能够访问我们之前未知其存在的相关资源。 这个过程需要通过使用一种叫做wordlists（字典）的资源来实现。</p>
+<h2 id="什么是wordlists（字典）？"><a href="#什么是wordlists（字典）？" class="headerlink" title="什么是wordlists（字典）？"></a><strong>什么是wordlists（字典）？</strong></h2><p>字典是包含一长串常用词的文本文件，它们可以涵盖许多不同的用例，例如，密码字典将包括最常用的密码列表；而在本例中我们需要使用一个包含最常用目录和文件名的字典。 预装在 THM AttackBox 上的字典资源是 <a target="_blank" rel="noopener" href="https://github.com/danielmiessler/SecLists">https://github.com/danielmiessler/SecLists</a> 该字典项目由Daniel Miessler维护。</p>
+<h2 id="自动化工具"><a href="#自动化工具" class="headerlink" title="自动化工具"></a><strong>自动化工具</strong></h2><p>有许多不同的网站内容发现工具可用，它们都有各自的功能和缺陷，我们将介绍三种预装在我们的 AttackBox 上的工具：ffuf、dirb 和 gobuster。 在 AttackBox 上执行以下三个命令，针对的目标为 Acme IT Support 网站，看看你会得到什么结果。</p>
+<ol>
+<li>使用ffuf</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">user@machine$ ffuf -w /usr/share/wordlists/SecLists/Discovery/Web-Content/common.txt -u http://10.49.176.96/FUZZ</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>使用 dirb</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">user@machine$ dirb http://10.49.176.96/ /usr/share/wordlists/SecLists/Discovery/Web-Content/common.txt</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>使用Gobuster</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">user@machine$ gobuster dir --url http://10.49.176.96/ -w /usr/share/wordlists/SecLists/Discovery/Web-Content/common.txt</span><br></pre></td></tr></table></figure>
+
+<p>由于功能都一样篇幅有限这边只展示dirb结果</p>
+<img src="/2025/12/14/%E3%80%90THM%E3%80%91Content-Discovery-%E7%BD%91%E7%AB%99%E5%86%85%E5%AE%B9%E5%8F%91%E7%8E%B0/image-20251214115140909.png" alt="image-20251214115140909" style="zoom:50%;">
+
+<p><img src="/2025/12/14/%E3%80%90THM%E3%80%91Content-Discovery-%E7%BD%91%E7%AB%99%E5%86%85%E5%AE%B9%E5%8F%91%E7%8E%B0/image-20251214115354996.png" alt="image-20251214115354996"></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2025/12/13/%E3%80%90THM%E3%80%91Walking%20An%20Application(%E9%81%8D%E5%8E%86Web%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F)/" rel="prev" title="【THM】Walking An Application(遍历Web应用程序)">
+                  <i class="fa fa-angle-left"></i> 【THM】Walking An Application(遍历Web应用程序)
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Csvpir</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">22k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">20 分钟</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+</div>
+
+<span id="timeDate">载入天数...</span>
+<span id="times">载入时分秒...</span>
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("12/7/2025 10:00:00"); //修改为你的网站开始运行的时间
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 ";
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒.";
+    }
+setInterval("createtime()",250);
+</script>
+
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>
